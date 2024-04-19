@@ -13,9 +13,7 @@ const AppRouter = () => {
         <Navbar/>
         <Routes>
             {routes.map(({name, path}) => (
-              <Route key={path} path={path}>
-                {name}
-              </Route>
+              <Route key={path} path={path} element={name}/>
             ))}
         </Routes>
     </BrowserRouter>
