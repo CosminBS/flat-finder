@@ -61,7 +61,7 @@ const Navbar = () => {
     <motion.nav variants={containerVariants} initial="close" animate={containerControls} className="bg-neutral-700 flex flex-col z-10 gap-20 p-5 absolute top-0 left-0 h-full shadow-md shadow-neutral-600">
         <div className="flex flex-row w-full justify-between place-items-center">
             <div className="w-10 h-10">
-              <UserCircleIcon clasName="stroke-inherit stroke-[0.75] min-w-8 w-8" />
+              <UserCircleIcon className="text-white" />
             </div>
             <button onClick={() => handleOpenClose()} className='p-1 rouneded-full flex'>
             <svg
