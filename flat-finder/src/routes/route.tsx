@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import HomePage from "../pages/HomePage/HomePage"
-// import Navbar from "../components/Navbar/Navbar"
+import Navbar from "../components/Navbar/Navbar"
 import Register from "../pages/Register/Register"
 import Login from "../pages/Login/Login"
 
@@ -14,7 +14,7 @@ const AppRouter = () => {
 
   return (
     <BrowserRouter>
-        {/* <Navbar/> */}
+        <Navbar/>
         <Routes>
             {routes.map(({name, path}) => (
               <Route key={path} path={path} element={name}/>

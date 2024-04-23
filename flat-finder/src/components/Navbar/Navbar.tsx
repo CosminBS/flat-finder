@@ -2,12 +2,14 @@ import { motion, useAnimationControls} from "framer-motion"
 import { useState, useEffect } from "react"
 import NavigationLinks from "./NavigationLinks"
 import {
-    ChartBarIcon,
-    Square2StackIcon,
+    HeartIcon,
     DocumentCheckIcon,
-    ChartPieIcon,
     UsersIcon,
-    UserCircleIcon
+    ArrowLeftStartOnRectangleIcon,
+    HomeIcon,
+    UserIcon,
+    TrashIcon,
+    ChatBubbleOvalLeftIcon,
 } from "@heroicons/react/24/outline"
 
 const containerVariants = {
@@ -40,7 +42,8 @@ const svgVariants = {
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false)
-  
+    const [isAdmin, setIsAdmin] = useState(false)
+
     const containerControls = useAnimationControls()
     const svgControls = useAnimationControls()
   
@@ -57,11 +60,11 @@ const Navbar = () => {
     const handleOpenClose = () => {
       setIsOpen(!isOpen)
     }
+    
   return (
-    <motion.nav variants={containerVariants} initial="close" animate={containerControls} className="bg-neutral-700 flex flex-col z-10 gap-20 p-5 absolute top-0 left-0 h-full shadow-md shadow-neutral-600">
+    <motion.nav variants={containerVariants} initial="close" animate={containerControls} className="bg-white flex flex-col z-10 gap-20 p-5 fixed top-0 left-0 h-full shadow-md shadow-neutral-600">
         <div className="flex flex-row w-full justify-between place-items-center">
             <div className="w-10 h-10">
-              <UserCircleIcon className="text-white" />
             </div>
             <button onClick={() => handleOpenClose()} className='p-1 rouneded-full flex'>
             <svg
@@ -70,7 +73,7 @@ const Navbar = () => {
               viewBox="0 0 24 24"
               strokeWidth={1}
               stroke="currentColor"
-              className="w-8 h-8 stroke-neutral-200"
+              className="w-8 h-8 stroke-[#116A7B]"
             >
               <motion.path
                 strokeLinecap="round"
@@ -87,21 +90,40 @@ const Navbar = () => {
             </button>
         </div>
         <div className="flex flex-col gap-3">
-        <NavigationLinks name="Dashboard">
-            <ChartBarIcon className="stroke-inherit stroke-[0.75] min-w-8 w-8" />
+
+        <NavigationLinks name="Profile" to="/profile">
+            <UserIcon className="stroke-inherit stroke-[0.75] min-w-8 w-8" />
           </NavigationLinks>
-          <NavigationLinks name="Projects">
-            <Square2StackIcon className="stroke-inherit stroke-[0.75] min-w-8 w-8" />
+
+          <NavigationLinks name="Home" to="/">
+            <HomeIcon className="stroke-inherit stroke-[0.75] min-w-8 w-8" />
           </NavigationLinks>
-          <NavigationLinks name="Tasks">
+
+          <NavigationLinks name="Favorites" to="/favorites">
+            <HeartIcon className="stroke-inherit stroke-[0.75] min-w-8 w-8" />
+          </NavigationLinks>
+
+          <NavigationLinks name="My Flats" to="/my-flats">
             <DocumentCheckIcon className="stroke-inherit stroke-[0.75] min-w-8 w-8" />
           </NavigationLinks>
-          <NavigationLinks name="Reporting">
-            <ChartPieIcon className="stroke-inherit stroke-[0.75] min-w-8 w-8" />
+
+          <NavigationLinks name="Messages" to="/messages">
+            <ChatBubbleOvalLeftIcon className="stroke-inherit stroke-[0.75] min-w-8 w-8" />
           </NavigationLinks>
-          <NavigationLinks name="Users">
+
+          { isAdmin ? <NavigationLinks name="All Users" to="/all-users">
             <UsersIcon className="stroke-inherit stroke-[0.75] min-w-8 w-8" />
+          </NavigationLinks> : null }
+
+          <NavigationLinks  name="Delete Account" to="/delete-account">
+            <TrashIcon className="stroke-inherit stroke-[0.75] min-w-8 w-8" />
           </NavigationLinks>
+
+        </div>
+        <div>
+          <NavigationLinks name="Log Out" to="/">
+              <ArrowLeftStartOnRectangleIcon  className="stroke-inherit stroke-[0.75] min-w-8 w-8" />
+            </NavigationLinks>
         </div>
     </motion.nav>    
 )
