@@ -2,6 +2,22 @@ import Greetings from "../../components/Greetings/Greetings"
 import Filters from "../../components/Filters/Filters";
 import Sort from "../../components/Sort/Sort";
 
+
+const HomeCheckAd = () => {
+  return (
+    <div className="w-full flex flex-col md:flex-row justify-between items-center pt-5 bg-[#CDC2AE] rounded-lg gap-6">
+    <div className="px-5 flex flex-col gap-5 items-start">
+        <h1 className="text-[1.5rem] text-[#322744] font-semibold">Know the facts about a property</h1>
+        <p className=" text-[#322744]">Uncover nearby planning applications, flood risk, environmental impact, local crime rates, and much more.</p>
+        <button className="py-3 px-3 border-[2px] border-[#322744] text-[#322744] rounded-sm hover:text-[#fff] hover:bg-[#322744]">Get a Home Check</button>
+    </div>
+    <div className="px-11 flex justify-end items-end ">
+      <img src="../../src/assets/mobile.png" alt="" className="w-[410px] h-full"/>
+    </div>
+  </div>
+  )
+}
+
 const HomePage = () => {
 
   return (
@@ -25,8 +41,9 @@ const HomePage = () => {
         </div>
       </div>
 
-      
+      <HomeCheckAd></HomeCheckAd>
 
+      
     </div>
   )
 }

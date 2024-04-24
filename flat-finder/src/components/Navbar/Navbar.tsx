@@ -10,6 +10,7 @@ import {
     UserIcon,
     TrashIcon,
     ChatBubbleOvalLeftIcon,
+    PlusIcon,
 } from "@heroicons/react/24/outline"
 
 const containerVariants = {
@@ -42,7 +43,7 @@ const svgVariants = {
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false)
-    const [isAdmin, setIsAdmin] = useState(false)
+    const [isAdmin, setIsAdmin] = useState(true)
 
     const containerControls = useAnimationControls()
     const svgControls = useAnimationControls()
@@ -107,13 +108,17 @@ const Navbar = () => {
             <DocumentCheckIcon className="stroke-inherit stroke-[0.75] min-w-8 w-8" />
           </NavigationLinks>
 
+          <NavigationLinks name="New Flat" to="/new-flat">
+            <PlusIcon className="stroke-inherit stroke-[0.75] min-w-8 w-8" />
+          </NavigationLinks>
+
           <NavigationLinks name="Messages" to="/messages">
             <ChatBubbleOvalLeftIcon className="stroke-inherit stroke-[0.75] min-w-8 w-8" />
           </NavigationLinks>
 
-          { isAdmin ? <NavigationLinks name="All Users" to="/all-users">
+          { isAdmin && <NavigationLinks name="All Users" to="/all-users">
             <UsersIcon className="stroke-inherit stroke-[0.75] min-w-8 w-8" />
-          </NavigationLinks> : null }
+          </NavigationLinks>}
 
           <NavigationLinks  name="Delete Account" to="/delete-account">
             <TrashIcon className="stroke-inherit stroke-[0.75] min-w-8 w-8" />
