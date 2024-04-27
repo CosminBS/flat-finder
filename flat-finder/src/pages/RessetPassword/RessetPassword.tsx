@@ -1,23 +1,19 @@
-import { User } from "firebase/auth"
-import { useForm, SubmitHandler } from "react-hook-form"
-import { Link} from "react-router-dom"
-import { loginUser } from "../../api/methods/auth/users"
-import { useContext} from "react"
-import { UserDataContext } from "../../providers/userData.context"
+import { Link } from "react-router-dom"
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { ArrowLeftIcon } from "@heroicons/react/24/outline";
+import { User } from "firebase/auth";
+import { useRef } from "react";
+import { motion } from 'framer-motion'
 
-const Login = () => {
+const RessetPassword = () => {
 
+    const {register, handleSubmit, formState:{errors}, watch} = useForm();
+    const password = useRef({});
+    password.current = watch('password', '')
 
-  const { setUserDetails } = useContext(UserDataContext)
-
-  const {register, handleSubmit, formState:{errors}} = useForm();
-
-  const onSubmit: SubmitHandler<User> = async (data) => {
-    const userCredential = await loginUser(data)
-    setUserDetails(userCredential)
-  }
-
-
+    const onSubmit: SubmitHandler<User> = async (data) => {
+        console.log(data)
+    }
 
   return (
     <div className="pl-[6rem] w-full h-screen flex flex-col py-11 px-4 items-center">
@@ -29,7 +25,7 @@ const Login = () => {
               </Link>
         </div>
         <div>
-          <h1 className="font-semibold text-[18px] sm:text-[27px]">Login to save properties and much more</h1>
+          <h1 className="font-semibold text-[18px] sm:text-[27px]">Resset your password</h1>
         </div>
         <form className="py-3 w-full flex flex-col gap-3 text-[#116A7B]" onSubmit={handleSubmit(onSubmit)}>
 
@@ -53,19 +49,20 @@ const Login = () => {
             <p className="text-sm h-6 text-red-600">{errors.password && errors.password.message}</p>
           </div>
 
-          {/* Login button */}
-          <button type="submit" className="w-full bg-[#116A7B] h-[45px] rounded-md text-white shadow-md hover:bg-[#274f5c]">Login</button>
+           {/* Confirm Password */}
+          <div className="w-full flex flex-col gap-2">
+            <label htmlFor="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" {...register('confPassword', {required: {value: true, message: 'This filed is mandatory'}, validate: value => value === password.current || 'The passwords do not match'})} placeholder="********" className="border-[2px] px-2 rounded-md h-[55px] focus:outline-none focus:border-[#116A7B]"/>
+            <p className="text-sm h-6 text-red-600">{errors.confPassword && errors.confPassword.message}</p>
+          </div>
+
+          {/* Resset password button */}
+          <button type="submit" className="w-full bg-[#116A7B] h-[45px] rounded-md text-white shadow-md hover:bg-[#274f5c]">Resset password</button>
         </form>
 
-        {/* Redirect to register */}
+        {/* Back to login */}
         <div className="w-full h-[100px] py-5 flex flex-col justify-center items-center gap-3 sm:flex-row">
-          <p className="h-full flex justify-center items-center"> Don't have an account? </p>
-          <button className="font-semibold hover:border-b-2 border-[#CDC2AE] text-[#116A7B]"><Link to='/register'>Create an account</Link></button>
-        </div>
-
-        {/* Redirect to resset password */}
-        <div className="w-full h-[50px] py-5 flex flex-col justify-center items-center ">
-          <button className="font-semibold hover:border-b-2 border-[#CDC2AE] text-[#116A7B]"><Link to='/resset-password'>Resset Password</Link></button>
+          <motion.button whileHover={{translateX: -10}} className="font-semibold hover:border-b-2 border-[#CDC2AE] text-[#116A7B] flex gap-3 justify-center items-center"> <ArrowLeftIcon className="stroke-[#116A7B] stroke-[0.75] min-w-8 w-8" /><Link to='/login'>Back to Login</Link></motion.button>
         </div>
 
       </div>
@@ -73,4 +70,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default RessetPassword
