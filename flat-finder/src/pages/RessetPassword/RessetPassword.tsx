@@ -62,7 +62,7 @@ const RessetPassword = () => {
 
         {/* Back to login */}
         <div className="w-full h-[100px] py-5 flex flex-col justify-center items-center gap-3 sm:flex-row">
-          <motion.button whileHover={{translateX: -10}} className="font-semibold hover:border-b-2 border-[#CDC2AE] text-[#116A7B] flex gap-3 justify-center items-center"> <ArrowLeftIcon className="stroke-[#116A7B] stroke-[0.75] min-w-8 w-8" /><Link to='/login'>Back to Login</Link></motion.button>
+          <motion.button whileHover={{translateX: -10}} className="font-semibold text-[#116A7B] flex gap-3 justify-center items-center"> <ArrowLeftIcon className="stroke-[#116A7B] stroke-[0.75] min-w-8 w-8" /><Link to='/login'>Back to Login</Link></motion.button>
         </div>
 
       </div>

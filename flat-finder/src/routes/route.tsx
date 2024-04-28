@@ -35,7 +35,7 @@ const AppRouter = () => {
               <Route key={path} path={path} element={name}/>
             ))}
         </Routes>
-        <Footer/>
+        {/* <Footer/> */}
     </BrowserRouter>
   )
 }
