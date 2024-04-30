@@ -19,9 +19,16 @@ function App() {
   const [userDetails, setUserDetails] = useState({} as User)
 
   const getUser = async () => {
-    const loggedUser = JSON.parse(localStorage.getItem('loggedUser') as string) || ""
-
-    if (loggedUser.length) setUserDetails(await fetchUser(loggedUser))
+    const loggedUser = JSON.parse(localStorage.getItem('loggedUser') as string) || "";
+  
+    if (loggedUser.length) {
+      const userData = await fetchUser(loggedUser);
+      if (userData) {
+        setUserDetails(userData);
+      } else {
+        console.log('User not found');
+      }
+    }
   }
 
   useEffect(() => {

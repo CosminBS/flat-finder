@@ -1,6 +1,6 @@
 import { useRef } from "react"
 import { useForm, SubmitHandler } from "react-hook-form"
-import { Link, useNavigate } from "react-router-dom"
+import { Link} from "react-router-dom"
 import { User } from '../../interfaces/interface'
 import { registerUser } from "../../api/methods/auth/users"
 
@@ -43,7 +43,7 @@ const Register = () => {
               message: 'Invalid email address'
             }
           })} className="border-[2px] px-2 rounded-md h-[55px] focus:outline-none focus:border-[#116A7B]"/>
-            <p className="text-sm h-6 text-red-600">{errors.email && errors.email.message}</p>
+            <p className="text-sm h-6 text-red-600">{errors.email && errors.email.message as string}</p>
           </div>
           
           {/* Password */}
@@ -55,28 +55,28 @@ const Register = () => {
                 value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,}$/,
                 message: 'Password should contain letters, numbers, and a special character'
               }} )} placeholder="********" className="border-[2px] px-2 rounded-md h-[55px] focus:outline-none focus:border-[#116A7B]"/>
-            <p className="text-sm h-6 text-red-600">{errors.password && errors.password.message}</p>
+            <p className="text-sm h-6 text-red-600">{errors.password && errors.password.message as string}</p>
           </div>
 
           {/* Confirm Password */}
           <div className="w-full flex flex-col gap-2">
             <label htmlFor="confirmPassword">Confirm Password</label>
             <input type="password" id="confirmPassword" {...register('confPassword', {required: {value: true, message: 'This filed is mandatory'}, validate: value => value === password.current || 'The passwords do not match'})} placeholder="********" className="border-[2px] px-2 rounded-md h-[55px] focus:outline-none focus:border-[#116A7B]"/>
-            <p className="text-sm h-6 text-red-600">{errors.confPassword && errors.confPassword.message}</p>
+            <p className="text-sm h-6 text-red-600">{errors.confPassword && errors.confPassword.message as string}</p>
           </div>
 
           {/* First Name */}
           <div className="w-full flex flex-col gap-2">
             <label htmlFor="firstName">First Name</label>
             <input type="text" id="firstName" {...register('firstName', {required: {value: true, message: 'This field is mandatory'}, minLength: {value: 2, message:'First Name should contain at least 2 chracters'}})} placeholder="e.g. John" className="border-[2px] px-2 rounded-md h-[55px] focus:outline-none focus:border-[#116A7B]"/>
-            <p className="text-sm h-6 text-red-600">{errors.firstName && errors.firstName.message}</p>
+            <p className="text-sm h-6 text-red-600">{errors.firstName && errors.firstName.message as string}</p>
           </div>
 
           {/* Last Name */}
           <div className="w-full flex flex-col gap-2">
             <label htmlFor="lastName">Last Name</label>
             <input type="text" id="lastName" {...register('lastName', {required: {value: true, message: 'This field is mandatory'}, minLength: {value: 2, message:'Last Name should contain at least 2 chracters'}})} placeholder="e.g. John" className="border-[2px] px-2 rounded-md h-[55px] focus:outline-none focus:border-[#116A7B]"/>
-            <p className="text-sm h-6 text-red-600">{errors.lastName && errors.lastName.message}</p>
+            <p className="text-sm h-6 text-red-600">{errors.lastName && errors.lastName.message as string}</p>
           </div>
 
           {/* Birth Date */}
@@ -95,7 +95,7 @@ const Register = () => {
               return true;
             }
           })} className="border-[2px] px-2 rounded-md h-[55px] focus:outline-none focus:border-[#116A7B]"/>
-            <p className="text-sm h-6 text-red-600">{errors.dateOfBirth && errors.dateOfBirth.message}</p>
+            <p className="text-sm h-6 text-red-600">{errors.dateOfBirth && errors.dateOfBirth.message as string}</p>
           </div>
 
           {/* Register button */}

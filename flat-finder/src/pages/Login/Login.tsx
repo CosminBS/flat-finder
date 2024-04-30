@@ -1,21 +1,30 @@
 import { User } from "firebase/auth"
 import { useForm, SubmitHandler } from "react-hook-form"
-import { Link} from "react-router-dom"
+import { Link, useNavigate} from "react-router-dom"
 import { loginUser } from "../../api/methods/auth/users"
-import { useContext} from "react"
+import { useContext, useEffect} from "react"
 import { UserDataContext } from "../../providers/userData.context"
 
 const Login = () => {
 
 
-  const { setUserDetails } = useContext(UserDataContext)
+  const { userDetails, setUserDetails } = useContext(UserDataContext)
+
+  const navigate = useNavigate()
 
   const {register, handleSubmit, formState:{errors}} = useForm();
 
   const onSubmit: SubmitHandler<User> = async (data) => {
     const userCredential = await loginUser(data)
     setUserDetails(userCredential)
+    navigate('/')
   }
+
+  useEffect(() => {
+    if(JSON.parse(localStorage.getItem('loggedUser') as string)){
+      navigate('/')
+    }
+  }, [])
 
 
 
@@ -43,14 +52,14 @@ const Login = () => {
               message: 'Invalid email address'
             }
           })}/>
-            <p className="text-sm h-6 text-red-600">{errors.email && errors.email.message}</p>
+            <p className="text-sm h-6 text-red-600">{errors.email && errors.email.message as string}</p>
           </div>
           
           {/* Password */}
           <div className="w-full flex flex-col gap-2">
             <label htmlFor="password">Password</label>
             <input type="password" id="password" placeholder="********" className="border-[2px] px-2 rounded-md h-[55px] focus:outline-none focus:border-[#116A7B]" {...register('password', {required: {value: true, message: 'This filed is mandatory'}})} />
-            <p className="text-sm h-6 text-red-600">{errors.password && errors.password.message}</p>
+            <p className="text-sm h-6 text-red-600">{errors.password && errors.password.message as string}</p>
           </div>
 
           {/* Login button */}

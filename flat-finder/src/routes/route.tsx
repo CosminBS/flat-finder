@@ -9,7 +9,6 @@ import MyFlats from "../pages/MyFlats/MyFlats"
 import Messages from "../pages/Messages/Messages"
 import DeleteAccount from "../pages/DeleteAccount/DeleteAccount"
 import NewFlat from "../pages/NewFlat/NewFlat"
-import Footer from "../components/Footer/Footer"
 import RessetPassword from "../pages/RessetPassword/RessetPassword"
 
 const AppRouter = () => {
@@ -35,7 +34,6 @@ const AppRouter = () => {
               <Route key={path} path={path} element={name}/>
             ))}
         </Routes>
-        {/* <Footer/> */}
     </BrowserRouter>
   )
 }

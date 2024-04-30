@@ -1,23 +1,12 @@
-
 import { useForm } from "react-hook-form"
 import { CheckIcon }  from "@heroicons/react/24/outline"
-
-interface newFlatForm {
-    city: string 
-    streetName: string
-    streetNumber: number
-    areaSize: number
-    hasAC: boolean
-    yearBuilt: number
-    rentPrice: number
-    availableDate: Date
-}
+import { newFlatForm } from "../../interfaces/interface";
 
 const NewFlat = () => {
 
     const {register, handleSubmit, formState:{errors}} = useForm();
 
-    const onSubmit = (data: newFlatForm) => {
+    const onSubmit = async (data: newFlatForm) => {
         console.log(data)
     }
 
@@ -37,28 +26,28 @@ const NewFlat = () => {
             <div className="flex flex-col gap-2 w-full sm:w-[500px] md:w-[600px]">
                 <label htmlFor="city">City:</label>
                 <input type="text" id="city" placeholder="e.g. Brasov" {...register('city', {required: {value: true, message: errorMessage}})} className="pl-1 py-3 border-[2px] border-black rounded-md focus:outline-none focus:border-[#116A7B]" />
-                <p className="h-10 text-red-600 text-sm">{errors.city && errors.city.message}</p>
+                <p className="h-10 text-red-600 text-sm">{errors.city && errors.city.message as string}</p>
             </div>
 
             {/* Street Name */}
             <div className="flex flex-col gap-2 w-full sm:w-[500px] md:w-[600px]">
                 <label htmlFor="streetName">Street Name:</label>
                 <input type="text" id="streetName" placeholder="e.g. Principala" {...register('streetName', {required: {value: true, message: errorMessage}})} className="pl-1 py-3 border-[2px] border-black rounded-md focus:outline-none focus:border-[#116A7B]" />
-                <p className="h-10 text-red-600 text-sm">{errors.streetName && errors.streetName.message}</p>
+                <p className="h-10 text-red-600 text-sm">{errors.streetName && errors.streetName.message as string}</p>
             </div>
 
             {/* Stree Number */}
             <div className="flex flex-col gap-2 w-full sm:w-[500px] md:w-[600px]">
                 <label htmlFor="streetNumber">Street Number:</label>
                 <input type="number" id="streetNumber" placeholder="e.g. 201" {...register('streetNumber', {required: {value: true, message: errorMessage}})} className="pl-1 py-3 border-[2px] border-black rounded-md focus:outline-none focus:border-[#116A7B]"/>
-                <p className="h-10 text-red-600 text-sm">{errors.streetNumber && errors.streetNumber.message}</p>
+                <p className="h-10 text-red-600 text-sm">{errors.streetNumber && errors.streetNumber.message as string}</p>
             </div>
 
             {/* Area Size */}
             <div className="flex flex-col gap-2 w-full sm:w-[500px] md:w-[600px]">
                 <label htmlFor="areaSize">Area Size:</label>
                 <input type="number" id="areaSize" placeholder="e.g. 64 mp" {...register('areaSize', {required: {value: true, message: errorMessage}})} className="pl-1 py-3 border-[2px] border-black rounded-md focus:outline-none focus:border-[#116A7B]"/>
-                <p className="h-10 text-red-600 text-sm">{errors.streetNumber && errors.streetNumber.message}</p>
+                <p className="h-10 text-red-600 text-sm">{errors.streetNumber && errors.streetNumber.message as string}</p>
             </div>
 
             {/* Has AC */}
@@ -75,14 +64,14 @@ const NewFlat = () => {
             <div className="flex flex-col gap-2 w-full sm:w-[500px] md:w-[600px]">
                 <label htmlFor="yearBuilt">Construction Year:</label>
                 <input type="number" id="yearBuilt" placeholder="e.g. 1998" {...register('yearBuilt', {required: {value: true, message: errorMessage}})} className="pl-1 py-3 border-[2px] border-black rounded-md focus:outline-none focus:border-[#116A7B]"/>
-                <p className="h-10 text-red-600 text-sm">{errors.yearBuilt && errors.yearBuilt.message}</p>
+                <p className="h-10 text-red-600 text-sm">{errors.yearBuilt && errors.yearBuilt.message as string}</p>
             </div>
 
             {/* Rent Price */}
             <div className="flex flex-col gap-2 w-full sm:w-[500px] md:w-[600px]">
                 <label htmlFor="rentPrice">Rent Price:</label>
                 <input type="number" id="rentPrice" placeholder="e.g. 500$" {...register('rentPrice', {required: {value: true, message: errorMessage}})} className="pl-1 py-3 border-[2px] border-black rounded-md focus:outline-none focus:border-[#116A7B]"/>
-                <p className="h-10 text-red-600 text-sm">{errors.rentPrice && errors.rentPrice.message}</p>
+                <p className="h-10 text-red-600 text-sm">{errors.rentPrice && errors.rentPrice.message as string}</p>
             </div>
 
             {/* Available Date */}
@@ -90,7 +79,7 @@ const NewFlat = () => {
                 <label htmlFor="availableDate">Avialable Date</label>
                 <input type="date" id="availableDate" {...register('startDate', {required: {value: true, message: errorMessage}})} className="pl-1 py-3 border-[2px] border-black rounded-md focus:outline-none focus:border-[#116A7B]"/>
                 <input type="date" id="availableDate" {...register('endDate', {required: {value: true, message: errorMessage}})} className="pl-1 py-3 border-[2px] border-black rounded-md focus:outline-none focus:border-[#116A7B]"/>
-                <p className="h-10 text-red-600 text-sm">{errors.startDate && errors.startDate.message || errors.endDate && errors.endDate.message}</p>
+                <p className="h-10 text-red-600 text-sm">{errors.startDate && errors.startDate.message as string || errors.endDate && errors.endDate.message as string}</p>
             </div>
 
             <div className="w-full flex justify-center items-center">

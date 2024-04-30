@@ -35,7 +35,7 @@ const Sort = () => {
         <div className="py-5 flex flex-col gap-3 sm:flex-row">
             <button onClick={(e) => cleareSort(e)} className="px-3 py-2 bg-red-600 flex w-full sm:w-[125px] text-white items-center justify-center gap-2 rounded-md hover:bg-red-700 hover:shadow-md">
                 <TrashIcon className="stroke-white stroke-[0.75] min-w-8 w-8" />
-                Cleare
+                Clear
             </button>
             <button type="submit" className="px-3 py-2 bg-[#116A7B] flex w-full sm:w-[125px] text-white items-center justify-center gap-2 rounded-md hover:bg-[#274f5c] hover:shadow-md">
                 <MagnifyingGlassIcon className="stroke-white stroke-[0.75] min-w-8 w-8" />

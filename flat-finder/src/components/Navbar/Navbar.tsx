@@ -12,6 +12,8 @@ import {
     ChatBubbleOvalLeftIcon,
     PlusIcon,
 } from "@heroicons/react/24/outline"
+import { LogOutUser } from "../../api/methods/auth/users"
+import { useNavigate } from "react-router"
 
 const containerVariants = {
   close: {
@@ -43,7 +45,9 @@ const svgVariants = {
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false)
-    const [isAdmin, setIsAdmin] = useState(true)
+    const isAdmin = true
+
+    const navigate = useNavigate()
 
     const containerControls = useAnimationControls()
     const svgControls = useAnimationControls()
@@ -60,6 +64,12 @@ const Navbar = () => {
   
     const handleOpenClose = () => {
       setIsOpen(!isOpen)
+    }
+
+    const handleLogOut = async () => {
+      await LogOutUser()
+      localStorage.removeItem('loggedUser')
+      navigate('/login')
     }
     
   return (
@@ -127,8 +137,10 @@ const Navbar = () => {
         </div>
         <div>
           <NavigationLinks name="Log Out" to="/">
+            <button onClick={() => handleLogOut()}>
               <ArrowLeftStartOnRectangleIcon  className="stroke-inherit stroke-[0.75] min-w-8 w-8" />
-            </NavigationLinks>
+            </button>
+          </NavigationLinks>
         </div>
     </motion.nav>    
 )

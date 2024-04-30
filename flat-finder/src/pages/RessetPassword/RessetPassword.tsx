@@ -11,7 +11,7 @@ const RessetPassword = () => {
     const password = useRef({});
     password.current = watch('password', '')
 
-    const onSubmit: SubmitHandler<User> = async (data) => {
+    const onSubmit = async (data:any) => {
         console.log(data)
     }
 
@@ -39,21 +39,21 @@ const RessetPassword = () => {
               message: 'Invalid email address'
             }
           })}/>
-            <p className="text-sm h-6 text-red-600">{errors.email && errors.email.message}</p>
+            <p className="text-sm h-6 text-red-600">{errors.email && errors.email.message as string}</p>
           </div>
           
           {/* Password */}
           <div className="w-full flex flex-col gap-2">
             <label htmlFor="password">Password</label>
             <input type="password" id="password" placeholder="********" className="border-[2px] px-2 rounded-md h-[55px] focus:outline-none focus:border-[#116A7B]" {...register('password', {required: {value: true, message: 'This filed is mandatory'}})} />
-            <p className="text-sm h-6 text-red-600">{errors.password && errors.password.message}</p>
+            <p className="text-sm h-6 text-red-600">{errors.password && errors.password.message as string}</p>
           </div>
 
            {/* Confirm Password */}
           <div className="w-full flex flex-col gap-2">
             <label htmlFor="confirmPassword">Confirm Password</label>
             <input type="password" id="confirmPassword" {...register('confPassword', {required: {value: true, message: 'This filed is mandatory'}, validate: value => value === password.current || 'The passwords do not match'})} placeholder="********" className="border-[2px] px-2 rounded-md h-[55px] focus:outline-none focus:border-[#116A7B]"/>
-            <p className="text-sm h-6 text-red-600">{errors.confPassword && errors.confPassword.message}</p>
+            <p className="text-sm h-6 text-red-600">{errors.confPassword && errors.confPassword.message as string}</p>
           </div>
 
           {/* Resset password button */}

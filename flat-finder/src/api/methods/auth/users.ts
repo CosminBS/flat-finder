@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import { doc, getDoc, setDoc } from 'firebase/firestore'
 import { User } from '../../../interfaces/interface'
 import { auth, db } from '../../firebase/firebase.config'
@@ -19,8 +19,8 @@ export async function registerUser(user: User){
 export async function loginUser(user: User){
     
     const userCredential = await signInWithEmailAndPassword(auth, user.email, user.password as string)
-
     return fetchUser(userCredential.user.uid)
+
 }
 
 // Create users db
@@ -45,7 +45,7 @@ export async function fetchUser( uid:string ) {
         const docRef = doc(db, 'users', uid)
         const docSnap = await getDoc(docRef)
 
-        if(docSnap){
+        if(docSnap.exists()){
             console.log('User logged in')
 
             const data = docSnap.data()
@@ -55,6 +55,16 @@ export async function fetchUser( uid:string ) {
             console.log('User doesn\'t exist')
         }
     } catch (error){
+        console.error(error)
+    }
+}
+
+// log out
+
+export async function LogOutUser(){
+    try {
+        await signOut(auth)
+    } catch(error){
         console.error(error)
     }
 }
