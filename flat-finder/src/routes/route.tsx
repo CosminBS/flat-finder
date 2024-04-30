@@ -10,6 +10,7 @@ import Messages from "../pages/Messages/Messages"
 import DeleteAccount from "../pages/DeleteAccount/DeleteAccount"
 import NewFlat from "../pages/NewFlat/NewFlat"
 import RessetPassword from "../pages/RessetPassword/RessetPassword"
+import AllUsers from "../pages/AllUsers/AllUsers"
 
 const AppRouter = () => {
 
@@ -24,6 +25,7 @@ const AppRouter = () => {
     {name: <Messages/>, path: 'messages'},
     {name: <DeleteAccount/>, path: 'delete-account'},
     {name: <RessetPassword/>, path: 'resset-password'},
+    {name: <AllUsers/>, path: 'all-users'}
   ]
 
   return (
