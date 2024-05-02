@@ -6,10 +6,12 @@ export interface User {
     firstName: string
     lastName: string
     dateOfBirth: string
+    role: string
 }
 
 export interface newFlatForm {
     uid: string
+    image: string
     city: string 
     streetName: string
     streetNumber: number
@@ -17,5 +19,6 @@ export interface newFlatForm {
     hasAC: boolean
     yearBuilt: number
     rentPrice: number
-    availableDate: Date
+    startDate: Date
+    endDate: Date
 }

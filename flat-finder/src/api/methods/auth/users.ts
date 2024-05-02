@@ -8,7 +8,7 @@ import { auth, db } from '../../firebase/firebase.config'
 export async function registerUser(user: User){
     try{
         const userCredential = await createUserWithEmailAndPassword(auth, user.email, user.password as string)
-        await createUserInDb({uid:userCredential.user.uid, email:user.email, firstName:user.firstName, lastName:user.lastName, dateOfBirth:user.dateOfBirth})
+        await createUserInDb({uid:userCredential.user.uid, email:user.email, firstName:user.firstName, lastName:user.lastName, dateOfBirth:user.dateOfBirth, role:'regular'})
         
     } catch (error){
         console.error(error)
@@ -31,7 +31,8 @@ async function createUserInDb(user: User){
             email: user.email,
             firstName: user.firstName,
             lastName: user.lastName,
-            dateOfBirth: user.dateOfBirth
+            dateOfBirth: user.dateOfBirth,
+            role: 'regular'
         })
         console.log('User Registered')
     } catch (error) {
@@ -49,7 +50,7 @@ export async function fetchUser( uid:string ) {
             console.log('User logged in')
 
             const data = docSnap.data()
-            localStorage.setItem('loggedUser', JSON.stringify(data.uid as string))
+            localStorage.setItem('loggedUser', JSON.stringify(data.uid as string ))
             return docSnap.data()
         } else {
             console.log('User doesn\'t exist')

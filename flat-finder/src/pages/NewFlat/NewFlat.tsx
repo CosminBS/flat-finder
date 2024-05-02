@@ -1,13 +1,31 @@
 import { useForm } from "react-hook-form"
 import { CheckIcon }  from "@heroicons/react/24/outline"
 import { newFlatForm } from "../../interfaces/interface";
+import { addFlat } from "../../api/methods/addFlats/addFlats";
+import { uploadImage } from "../../api/methods/uploadImage/uploadImage";
+import { useState } from "react";
+import { getImageUrl } from "../../api/methods/addFlats/addFlats";
 
 const NewFlat = () => {
 
     const {register, handleSubmit, formState:{errors}} = useForm();
+    const [imageURL, setImageURL] = useState('')
 
     const onSubmit = async (data: newFlatForm) => {
-        console.log(data)
+        try {
+            let flatData = { ...data }; 
+
+            if (data.image[0]) {
+                const imagePath = await uploadImage(data.image[0]); 
+                const imageUrl = await getImageUrl(imagePath); 
+                setImageURL(imageUrl); 
+                flatData = { ...flatData, image: imageUrl }; 
+            }
+    
+            await addFlat(flatData);
+        } catch(error){
+            console.error(error)
+        }
     }
 
     const errorMessage = 'All fields are mandatory'
@@ -21,6 +39,12 @@ const NewFlat = () => {
         </div>
         <form className="w-full flex flex-col gap-2 bg-white px-3 rounded-xl shadow-md" onSubmit={handleSubmit(onSubmit)}>
          <div className="w-full flex flex-col py-11 gap-3 justify-center items-center">
+
+            {/* image */}
+            <div className="flex flex-col gap-2 w-full sm:w-[500px] md:w-[600px]">
+                <label htmlFor="image">Select image</label>
+                <input type="file" id="image" {...register('image')} />
+            </div>
 
             {/* city */}
             <div className="flex flex-col gap-2 w-full sm:w-[500px] md:w-[600px]">
@@ -53,7 +77,7 @@ const NewFlat = () => {
             {/* Has AC */}
             <div className="flex flex-col gap-2 w-full sm:w-[500px] md:w-[600px]">
                 <label htmlFor="hasAC">Has AC:</label>
-                <select id="hasAC" {...register('hasAc', {required: {value: true, message: errorMessage}})} className="pl-1 py-3 border-[2px] border-black rounded-md focus:outline-none focus:border-[#116A7B]">
+                <select id="hasAC" {...register('hasAC', {required: {value: true, message: errorMessage}})} className="pl-1 py-3 border-[2px] border-black rounded-md focus:outline-none focus:border-[#116A7B]">
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                 </select>

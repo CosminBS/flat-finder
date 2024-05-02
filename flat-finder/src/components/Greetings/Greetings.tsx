@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom"
 import { UserDataContext } from "../../providers/userData.context"
-import { useContext, useEffect } from "react"
-import { fetchUser } from "../../api/methods/auth/users";
+import { useContext} from "react"
 const Greetings = () => {
 
     const { userDetails } = useContext(UserDataContext);

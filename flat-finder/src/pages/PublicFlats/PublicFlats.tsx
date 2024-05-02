@@ -1,22 +1,35 @@
 import { HeartIcon, EnvelopeIcon, UserIcon  } from "@heroicons/react/24/outline"
 import { motion } from 'framer-motion'
+import { useContext, useEffect, useState } from "react"
 import { Link } from "react-router-dom"
+import { UserDataContext } from "../../providers/userData.context"
+import { getFlats } from "../../api/methods/addFlats/addFlats"
 
 const PublicFlats = () => {
 
-    const dummyData = [
-        {name: 'Chirie 1', city: 'Cluj', strName: 'Principala', strNumber: 12, areaSize: 64, AC: 'Yes', yearBuilt: 1993, rentPrice: 450, dateAvailable: "24-04-2024", pName: 'John Doe', pEmail: 'mail@mail.com', url:'../../src/assets/cladire-1.jpg'},
-        {name: 'Chirie 2', city: 'Cluj', strName: 'Principala', strNumber: 12, areaSize: 64, AC: 'Yes', yearBuilt: 1993, rentPrice: 450, dateAvailable: "24-04-2024", pName: 'John Doe', pEmail: 'mail@mail.com', url:'../../src/assets/cladire-2.jpg'},
-        {name: 'Chirie 3', city: 'Sibiu', strName: 'Principala', strNumber: 12, areaSize: 64, AC: 'Yes', yearBuilt: 1993, rentPrice: 450, dateAvailable: "24-04-2024", pName: 'John Doe', pEmail: 'mail@mail.com', url:'../../src/assets/cladire-3.jpg'},
-        {name: 'Chirie 2', city: 'Cluj', strName: 'Principala', strNumber: 12, areaSize: 64, AC: 'Yes', yearBuilt: 1993, rentPrice: 450, dateAvailable: "24-04-2024", pName: 'John Doe', pEmail: 'mail@mail.com', url:'../../src/assets/cladire-2.jpg'},
-    ]
+    const [isClicked, setIsClicked] = useState(false)
+    const {flats, setFlats} = useContext(UserDataContext)
+
+    const handleClick = () => {
+        setIsClicked(!isClicked)
+    }
+
+    useEffect(() => {
+        const fetchFlats = async () => {
+            const allFlats = await getFlats()
+            console.log(allFlats)
+            setFlats(allFlats)
+        }
+
+        fetchFlats()
+    },[])
 
   return (
     <div className="flex flex-col gap-6 font-poppins">
-        {dummyData.map((e, index) => (
+        {flats.map((e, index) => (
             <div key={index} className="grid grid-cols-1 md:grid-cols-2 gap-3 rounded-lg border-[1px] border-[#bcb2b2]">
                 <div className="h-[150px] xs:h-[250px] md:h-full">
-                    <div className="bg-cover bg-center h-full w-full rounded-t-lg md:rounded-none md:rounded-l-lg" style={{backgroundImage: `url(${e.url})`}}></div>
+                    <div className="bg-cover bg-center h-full w-full rounded-t-lg md:rounded-none md:rounded-l-lg" style={{backgroundImage: `url(${e.imageURL})`}}></div>
                 </div>
                 <div className="py-3 px-3 flex flex-col justify-around">
 
@@ -25,9 +38,9 @@ const PublicFlats = () => {
                             <h1 className="font-semibold text-[1.4rem]">{e.rentPrice} $</h1>
                         </div>
                         <div className="flex justify-center items-center gap-2">
-                            <p className="hidden xs:flex text-[12px]">Add to favorites</p>
-                            <motion.button whileHover={{rotateY: 180, transition:{type: "spring", damping: 15, duration: 0.5,}}} className="min-w-7 w-7 h-7  flex justify-center items-center rounded-[4px] hover:bg-[#cfe1e4]">
-                            <HeartIcon className="stroke-[#5f8087] stroke-[0.75] min-w-6 w-6" />
+                            <p className="hidden xs:flex text-[12px]">{isClicked && 'Added to favorites' || 'Add to favorites'}</p>
+                            <motion.button onClick={() => handleClick()} whileHover={{rotateY: 180, transition:{type: "spring", damping: 15, duration: 0.5,}}} className="min-w-7 w-7 h-7  flex justify-center items-center rounded-[4px] hover:bg-[#cfe1e4]">
+                            <HeartIcon className={isClicked && `stroke-red-500 stroke-[0.75] min-w-6 w-6` || `stroke-[#5f8087] stroke-[0.75] min-w-6 w-6`} />
                             </motion.button>
                         </div>
                     </div>
@@ -38,13 +51,35 @@ const PublicFlats = () => {
                         <Link to='/flat'>
 
                         <div className="flex flex-col gap-3 items-start border-b-[1px] border-[#bcb2b2] py-3  cursor-pointer" >
-                            <span className="flex gap-1 flex-col xs:flex-row"><p className="font-semibold">City:</p><p>{e.city}</p></span>
-                            <span className="flex gap-1 flex-col xs:flex-row"><p className="font-semibold">Street Name:</p><p>{e.strName}</p></span>
-                            <span className="flex gap-1 flex-col xs:flex-row"><p className="font-semibold">Street Number:</p><p>{e.strNumber}</p></span>
-                            <span className="flex gap-1 flex-col xs:flex-row"><p className="font-semibold">Areea Size:</p><p>{e.areaSize}</p></span>
-                            <span className="flex gap-1 flex-col xs:flex-row"><p className="font-semibold">AC:</p><p>{e.AC}</p></span>
-                            <span className="flex gap-1 flex-col xs:flex-row"><p className="font-semibold">Built Year:</p><p>{e.yearBuilt}</p></span>
-                            <span className="flex gap-1 flex-col xs:flex-row"><p className="font-semibold">Date Available:</p><p>{e.dateAvailable}</p></span>
+
+                            <span className="flex gap-1 flex-col xs:flex-row">
+                                <p className="font-semibold">City:</p>
+                                <p>{e.city}</p>
+                            </span>
+                            <span className="flex gap-1 flex-col xs:flex-row">
+                                <p className="font-semibold">Street Name:</p>
+                                <p>{e.streetName}</p>
+                            </span>
+                            <span className="flex gap-1 flex-col xs:flex-row">
+                                <p className="font-semibold">Street Number:</p>
+                                <p>{e.streetNumber}</p>
+                            </span>
+                            <span className="flex gap-1 flex-col xs:flex-row">
+                                <p className="font-semibold">Areea Size:</p>
+                                <p>{e.areaSize}</p>
+                            </span>
+                            <span className="flex gap-1 flex-col xs:flex-row">
+                                <p className="font-semibold">AC:</p>
+                                <p>{e.hasAC}</p>
+                            </span>
+                            <span className="flex gap-1 flex-col xs:flex-row">
+                                <p className="font-semibold">Built Year:</p>
+                                <p>{e.yearBuilt}</p>
+                            </span>
+                            <span className="flex gap-1 flex-col xs:flex-row">
+                                <p className="font-semibold">Date Available:</p>
+                                <p>{e.endDate}</p>
+                            </span>
 
                         </div>
                         </Link>

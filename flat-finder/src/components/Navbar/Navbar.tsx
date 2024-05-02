@@ -1,5 +1,5 @@
 import { motion, useAnimationControls} from "framer-motion"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
 import NavigationLinks from "./NavigationLinks"
 import {
     HeartIcon,
@@ -14,6 +14,8 @@ import {
 } from "@heroicons/react/24/outline"
 import { LogOutUser } from "../../api/methods/auth/users"
 import { useNavigate } from "react-router"
+import { UserDataContext } from "../../providers/userData.context"
+import { reload } from "firebase/auth"
 
 const containerVariants = {
   close: {
@@ -44,13 +46,17 @@ const svgVariants = {
 }
 
 const Navbar = () => {
+
+    const { userDetails } = useContext(UserDataContext)
+
     const [isOpen, setIsOpen] = useState(false)
-    const isAdmin = true
+    
 
     const navigate = useNavigate()
 
     const containerControls = useAnimationControls()
     const svgControls = useAnimationControls()
+
   
     useEffect(() => {
       if (isOpen) {
@@ -126,9 +132,9 @@ const Navbar = () => {
             <ChatBubbleOvalLeftIcon className="stroke-inherit stroke-[0.75] min-w-8 w-8" />
           </NavigationLinks>
 
-          { isAdmin && <NavigationLinks name="All Users" to="/all-users">
+          {userDetails.role === 'admin' ? (<NavigationLinks name="All Users" to="/all-users">
             <UsersIcon className="stroke-inherit stroke-[0.75] min-w-8 w-8" />
-          </NavigationLinks>}
+          </NavigationLinks>) : null}
 
           <NavigationLinks  name="Delete Account" to="/delete-account">
             <TrashIcon className="stroke-inherit stroke-[0.75] min-w-8 w-8" />

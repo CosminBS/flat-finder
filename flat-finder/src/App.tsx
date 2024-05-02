@@ -17,6 +17,7 @@ export const userDataContext = createContext({} as UserDataContextInt)
 function App() {
 
   const [userDetails, setUserDetails] = useState({} as User)
+  const [flats, setFlats] = useState([])
 
   const getUser = async () => {
     const loggedUser = JSON.parse(localStorage.getItem('loggedUser') as string) || "";
@@ -37,7 +38,7 @@ function App() {
 
   return (
     <>
-    <UserDataContext.Provider value={{userDetails, setUserDetails}}>
+    <UserDataContext.Provider value={{userDetails, setUserDetails, flats, setFlats}}>
       <AppRouter/>
     </UserDataContext.Provider>
     </>
