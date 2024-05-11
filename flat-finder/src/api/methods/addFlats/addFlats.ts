@@ -4,12 +4,20 @@ import { v4 as uuidv4 } from "uuid"
 import { newFlatForm } from "../../../interfaces/interface";
 import { getDownloadURL, ref } from "firebase/storage";
 import { User } from '../../../interfaces/interface'
+import { fetchUser } from "../auth/users";
 
 
-export async function addFlat(flat: newFlatForm & { image: string }, user: User) {
+export async function addFlat(flat: newFlatForm & { image: string }): Promise <boolean>{
+
 
     try {
         const uid = uuidv4()
+
+        const user = await fetchUserFromLocalStorage()
+
+        if(!user){
+            throw new Error('User not found')
+        }
 
         await setDoc(doc(db, "flats", uid), {
             uid: uid,
@@ -23,11 +31,15 @@ export async function addFlat(flat: newFlatForm & { image: string }, user: User)
             rentPrice: flat.rentPrice,
             startDate: flat.startDate,
             endDate: flat.endDate,
+            email: user.email,
+            firstName: user.firstName,
+            lastName: user.lastName,
         })
-        console.log('Flats added to db')
+        return true
     } catch(error){
-        console.error('Error adding flats', error);
-        throw error;
+        console.error(error)
+        throw new Error("Error adding flat");
+        return false
     }
 
 }
@@ -48,7 +60,7 @@ export async function getFlats() {
         return arr;
     } catch(error){
         console.error(error)
-        throw error
+        throw new Error(error as string)
     }
 }
 
@@ -59,6 +71,20 @@ export async function getImageUrl(imageFile: string) {
         return await getDownloadURL(storageRef);
     } catch(error){
         console.error(error)
-        throw error
+        throw new Error(error as string)
+    }
+}
+
+export async function fetchUserFromLocalStorage(): Promise<User | null> {
+    try {
+        const userDataString = localStorage.getItem('loggedUser');
+        if (userDataString) {
+            const userData = JSON.parse(userDataString);
+            return userData as User;
+        } else {
+            return null;
+        }
+    } catch (error) {
+        throw new Error('Error fetching user data from local storage');
     }
 }

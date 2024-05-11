@@ -9,6 +9,6 @@ export async function uploadImage(imageFile: File){
         return imagePath;
     } catch(error){
         console.error("Error uploading image:", error);
-        throw error
+        throw new Error(error as string)
     }
 }

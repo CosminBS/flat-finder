@@ -5,14 +5,22 @@ import { addFlat } from "../../api/methods/addFlats/addFlats";
 import { uploadImage } from "../../api/methods/uploadImage/uploadImage";
 import { useState } from "react";
 import { getImageUrl } from "../../api/methods/addFlats/addFlats";
+import { useNavigate } from "react-router";
+import { useToast } from "../../contexts/ToastContext";
+import { useSpinner } from "../../contexts/SpinnerConext";
 
 const NewFlat = () => {
 
-    const {register, handleSubmit, formState:{errors}} = useForm();
+    const { toastError, toastSuccess } = useToast()
+    const { register, handleSubmit, formState:{errors} } = useForm();
+    const { setLoading } = useSpinner()
+
+    const navigate = useNavigate()
     const [imageURL, setImageURL] = useState('')
 
     const onSubmit = async (data: newFlatForm) => {
         try {
+            setLoading(true)
             let flatData = { ...data }; 
 
             if (data.image[0]) {
@@ -22,16 +30,21 @@ const NewFlat = () => {
                 flatData = { ...flatData, image: imageUrl }; 
             }
     
-            await addFlat(flatData);
+            const flatAdded = await addFlat(flatData);
+            if(flatAdded){
+                toastSuccess('Flat succesfuly added')
+                setLoading(false)
+            }
         } catch(error){
-            console.error(error)
-        }
+            toastError(error.message)
+            setLoading(false)
+        } 
     }
 
     const errorMessage = 'All fields are mandatory'
 
   return (
-    <div className="bg-[#ececeb] pl-[6rem] flex flex-col pr-3 py-6 gap-5">
+    <div className="bg-[#ececeb] pl-[6rem] flex flex-col pr-3 py-6 gap-5 z-0">
         <div className="w-full flex text-center items-center justify-center text-[1.4rem] font-semibold text-[#322744] gap-1">
             <span>Add</span> 
             <span className="text-[1.8rem] text-[#116A7B]">New</span>

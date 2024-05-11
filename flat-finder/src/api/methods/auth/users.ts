@@ -1,17 +1,23 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth'
-import { doc, getDoc, setDoc } from 'firebase/firestore'
+import { collection, doc, getDoc, getDocs, query, setDoc, where } from 'firebase/firestore'
 import { User } from '../../../interfaces/interface'
 import { auth, db } from '../../firebase/firebase.config'
 
 
 // Register user
-export async function registerUser(user: User){
-    try{
+export async function registerUser(user: User): Promise<boolean> {
+    try {
+        const emailExists = await checkEmail(user.email)
+        if (emailExists) {
+            throw new Error('Email already in use')
+        }
+
         const userCredential = await createUserWithEmailAndPassword(auth, user.email, user.password as string)
         await createUserInDb({uid:userCredential.user.uid, email:user.email, firstName:user.firstName, lastName:user.lastName, dateOfBirth:user.dateOfBirth, role:'regular'})
-        
-    } catch (error){
-        console.error(error)
+        return true
+    } catch (error) {
+        console.error('Error during user registration:', error.message)
+        return false 
     }
 }
 
@@ -34,38 +40,47 @@ async function createUserInDb(user: User){
             dateOfBirth: user.dateOfBirth,
             role: 'regular'
         })
-        console.log('User Registered')
     } catch (error) {
-        console.error(error)
+        throw new Error
     }
 }
 
 // fetch users
-export async function fetchUser( uid:string ) {
-    try{
-        const docRef = doc(db, 'users', uid)
-        const docSnap = await getDoc(docRef)
+export async function fetchUser(uid: string) {
+    try {
+        const docRef = doc(db, 'users', uid);
+        const docSnap = await getDoc(docRef);
 
-        if(docSnap.exists()){
-            console.log('User logged in')
+        if (docSnap.exists()) {
+            const userData = docSnap.data();
+            const { uid, email, firstName, lastName } = userData;
 
-            const data = docSnap.data()
-            localStorage.setItem('loggedUser', JSON.stringify(data.uid as string ))
-            return docSnap.data()
+            localStorage.setItem('loggedUser', JSON.stringify({ uid, email, firstName, lastName }));
+
+            return { uid, email, firstName, lastName };
         } else {
-            console.log('User doesn\'t exist')
+            throw new Error('User doesn\'t exist');
         }
-    } catch (error){
-        console.error(error)
+    } catch (error) {
+        throw new Error('Error fetching user');
     }
 }
 
 // log out
-
 export async function LogOutUser(){
     try {
         await signOut(auth)
     } catch(error){
-        console.error(error)
+        throw new Error
     }
+}
+
+// verify if email already exists
+export async function checkEmail(email: string): Promise <boolean> {
+    const usersRef = collection(db, 'users');
+    const q = query(usersRef, where('email', '==', email))
+
+    const querySnapshot = await getDocs(q)
+
+    return !querySnapshot.empty
 }

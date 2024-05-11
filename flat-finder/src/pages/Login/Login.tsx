@@ -4,20 +4,29 @@ import { Link, useNavigate} from "react-router-dom"
 import { loginUser } from "../../api/methods/auth/users"
 import { useContext, useEffect} from "react"
 import { UserDataContext } from "../../providers/userData.context"
+import { useToast } from "../../contexts/ToastContext"
 
 const Login = () => {
 
 
   const { userDetails, setUserDetails } = useContext(UserDataContext)
+  const { toastError, toastSuccess } = useToast()
 
   const navigate = useNavigate()
 
   const {register, handleSubmit, formState:{errors}} = useForm();
 
   const onSubmit: SubmitHandler<User> = async (data) => {
-    const userCredential = await loginUser(data)
-    setUserDetails(userCredential)
-    navigate('/')
+    try{
+      const loggedInSucces = await loginUser(data)
+      if(loggedInSucces){
+        toastSuccess('You are now logged in')
+        setUserDetails(loggedInSucces)
+        navigate('/')
+      } 
+    } catch (error){
+      toastError('Eroare de logare')
+    }
   }
 
   useEffect(() => {
@@ -29,7 +38,7 @@ const Login = () => {
 
 
   return (
-    <div className="pl-[6rem] w-full h-screen flex flex-col py-11 px-4 items-center">
+    <div className="w-full h-screen flex flex-col py-11 px-4 items-center">
       <div className="w-full h-full sm:w-[500px] flex flex-col gap-4 ">
         <div>
               <Link to="/">

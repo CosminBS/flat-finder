@@ -1,21 +1,37 @@
 import { useRef } from "react"
 import { useForm, SubmitHandler } from "react-hook-form"
-import { Link} from "react-router-dom"
+import { Link, useNavigate} from "react-router-dom"
 import { User } from '../../interfaces/interface'
 import { registerUser } from "../../api/methods/auth/users"
+import { useToast } from "../../contexts/ToastContext"
 
 const Register = () => {
 
+  const { toastError, toastSuccess } = useToast()
+
+  const navigate = useNavigate()
   const {register, handleSubmit, formState:{errors}, watch} = useForm();
   const password = useRef({});
   password.current = watch('password', '')
 
   const onSubmit: SubmitHandler<User> = async (data) => {
-    registerUser(data)
+    try {
+      const registrationSuccess = await registerUser(data);
+      if (registrationSuccess) {
+        toastSuccess('Congratulations you are know registered!')
+        navigate('/login');
+      }
+    } catch (error) {
+      if(error.message === 'Email already in use'){
+        toastError('Email address is already in use.');
+      }else{
+        toastError('Error')
+      }
+    }
   }
 
   return (
-    <div className="pl-[6rem] w-full h-screen flex flex-col py-11 px-4 items-center">
+    <div className="w-full h-screen flex flex-col py-11 px-4 items-center">
       <div className="w-full sm:w-[500px] flex flex-col gap-4 ">
         <div>
               <Link to="/">

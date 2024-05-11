@@ -11,6 +11,8 @@ import DeleteAccount from "../pages/DeleteAccount/DeleteAccount"
 import NewFlat from "../pages/NewFlat/NewFlat"
 import RessetPassword from "../pages/RessetPassword/RessetPassword"
 import AllUsers from "../pages/AllUsers/AllUsers"
+import { ToastProvider } from "../contexts/ToastContext"
+import { SpinnerProvider } from "../contexts/SpinnerConext"
 
 const AppRouter = () => {
 
@@ -30,12 +32,16 @@ const AppRouter = () => {
 
   return (
     <BrowserRouter>
+    <SpinnerProvider>
+    <ToastProvider>
         <Navbar/>
         <Routes>
             {routes.map(({name, path}) => (
               <Route key={path} path={path} element={name}/>
             ))}
         </Routes>
+    </ToastProvider>
+    </SpinnerProvider>
     </BrowserRouter>
   )
 }

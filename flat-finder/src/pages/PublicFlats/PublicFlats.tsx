@@ -85,8 +85,8 @@ const PublicFlats = () => {
                         </Link>
 
                         <div className="flex flex-col gap-3 sm:flex-row sm:justify-between">
-                            <span className="flex gap-1 flex-col xs:flex-row cursor-pointer"><UserIcon className="stroke-[#5f8087] stroke-[0.75] min-w-6 w-6" /> <p className="hover:text-[#116A7B]">{e.pName}</p></span>
-                            <span className="flex gap-1 flex-col xs:flex-row cursor-pointer"><EnvelopeIcon className="stroke-[#5f8087] stroke-[0.75] min-w-6 w-6" /> <p className="hover:text-[#116A7B]">{e.pEmail}</p></span>
+                            <span className="flex gap-1 flex-col xs:flex-row cursor-pointer"><UserIcon className="stroke-[#5f8087] stroke-[0.75] min-w-6 w-6" /> <p className="hover:text-[#116A7B]">{e.firstName} {e.lastName}</p></span>
+                            <span className="flex gap-1 flex-col xs:flex-row cursor-pointer"><EnvelopeIcon className="stroke-[#5f8087] stroke-[0.75] min-w-6 w-6" /> <p className="hover:text-[#116A7B]">{e.email}</p></span>
                         </div>
                     </div>
 

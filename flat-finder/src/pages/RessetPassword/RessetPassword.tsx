@@ -16,7 +16,7 @@ const RessetPassword = () => {
     }
 
   return (
-    <div className="pl-[6rem] w-full h-screen flex flex-col py-11 px-4 items-center">
+    <div className="w-full h-screen flex flex-col py-11 px-4 items-center">
       <div className="w-full h-full sm:w-[500px] flex flex-col gap-4 ">
         <div>
               <Link to="/">
