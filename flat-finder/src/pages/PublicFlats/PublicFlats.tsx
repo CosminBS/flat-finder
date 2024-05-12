@@ -17,7 +17,6 @@ const PublicFlats = () => {
     useEffect(() => {
         const fetchFlats = async () => {
             const allFlats = await getFlats()
-            console.log(allFlats)
             setFlats(allFlats)
         }
 
@@ -48,7 +47,7 @@ const PublicFlats = () => {
                     <div className="flex flex-col gap-2">
                         <h4 className="text-[21px] font-bold uppercase text-[#116A7B]">{e.name}</h4>
 
-                        <Link to='/flat'>
+                        <Link to={`flat-${e.uid}`}>
 
                         <div className="flex flex-col gap-3 items-start border-b-[1px] border-[#bcb2b2] py-3  cursor-pointer" >
 

@@ -1,7 +1,7 @@
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth'
-import { collection, doc, getDoc, getDocs, query, setDoc, where } from 'firebase/firestore'
+import { createUserWithEmailAndPassword,  signInWithEmailAndPassword, signOut } from 'firebase/auth'
+import { collection, doc, getDoc, getDocs, query, setDoc, where, deleteDoc } from 'firebase/firestore'
 import { User } from '../../../interfaces/interface'
-import { auth, db } from '../../firebase/firebase.config'
+import {  auth, db } from '../../firebase/firebase.config'
 
 
 // Register user
@@ -15,7 +15,7 @@ export async function registerUser(user: User): Promise<boolean> {
         const userCredential = await createUserWithEmailAndPassword(auth, user.email, user.password as string)
         await createUserInDb({uid:userCredential.user.uid, email:user.email, firstName:user.firstName, lastName:user.lastName, dateOfBirth:user.dateOfBirth, role:'regular'})
         return true
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error during user registration:', error.message)
         return false 
     }
@@ -53,11 +53,11 @@ export async function fetchUser(uid: string) {
 
         if (docSnap.exists()) {
             const userData = docSnap.data();
-            const { uid, email, firstName, lastName } = userData;
+            const { uid } = userData;
 
-            localStorage.setItem('loggedUser', JSON.stringify({ uid, email, firstName, lastName }));
+            localStorage.setItem('loggedUser', JSON.stringify( uid ));
 
-            return { uid, email, firstName, lastName };
+            return userData;
         } else {
             throw new Error('User doesn\'t exist');
         }

@@ -21,4 +21,7 @@ export interface newFlatForm {
     rentPrice: number
     startDate: Date
     endDate: Date
+    email: string
+    lastName: string
+    firstName: string
 }

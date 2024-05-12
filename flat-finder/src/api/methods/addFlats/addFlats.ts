@@ -3,21 +3,12 @@ import { setDoc, doc, getDocs, collection, DocumentData } from "firebase/firesto
 import { v4 as uuidv4 } from "uuid"
 import { newFlatForm } from "../../../interfaces/interface";
 import { getDownloadURL, ref } from "firebase/storage";
-import { User } from '../../../interfaces/interface'
-import { fetchUser } from "../auth/users";
-
 
 export async function addFlat(flat: newFlatForm & { image: string }): Promise <boolean>{
 
 
     try {
         const uid = uuidv4()
-
-        const user = await fetchUserFromLocalStorage()
-
-        if(!user){
-            throw new Error('User not found')
-        }
 
         await setDoc(doc(db, "flats", uid), {
             uid: uid,
@@ -31,13 +22,13 @@ export async function addFlat(flat: newFlatForm & { image: string }): Promise <b
             rentPrice: flat.rentPrice,
             startDate: flat.startDate,
             endDate: flat.endDate,
-            email: user.email,
-            firstName: user.firstName,
-            lastName: user.lastName,
+            email: flat.email,
+            firstName: flat.firstName,
+            lastName: flat.lastName,
         })
         return true
     } catch(error){
-        console.error(error)
+        console.error()
         throw new Error("Error adding flat");
         return false
     }
@@ -75,16 +66,3 @@ export async function getImageUrl(imageFile: string) {
     }
 }
 
-export async function fetchUserFromLocalStorage(): Promise<User | null> {
-    try {
-        const userDataString = localStorage.getItem('loggedUser');
-        if (userDataString) {
-            const userData = JSON.parse(userDataString);
-            return userData as User;
-        } else {
-            return null;
-        }
-    } catch (error) {
-        throw new Error('Error fetching user data from local storage');
-    }
-}

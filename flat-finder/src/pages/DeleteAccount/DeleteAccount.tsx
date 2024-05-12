@@ -1,7 +1,12 @@
 
 const DeleteAccount = () => {
+
+  
+
   return (
-    <div>DeleteAccount</div>
+    <div className="w-full flex justify-center items-center">
+      <button>STERGE</button>
+    </div>
   )
 }
 

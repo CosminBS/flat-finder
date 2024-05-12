@@ -8,34 +8,36 @@ import { getImageUrl } from "../../api/methods/addFlats/addFlats";
 import { useNavigate } from "react-router";
 import { useToast } from "../../contexts/ToastContext";
 import { useSpinner } from "../../contexts/SpinnerConext";
+import { UserDataContext } from "../../providers/userData.context";
+import { useContext } from "react";
 
 const NewFlat = () => {
 
+    const { userDetails } = useContext(UserDataContext);
     const { toastError, toastSuccess } = useToast()
     const { register, handleSubmit, formState:{errors} } = useForm();
     const { setLoading } = useSpinner()
 
-    const navigate = useNavigate()
     const [imageURL, setImageURL] = useState('')
 
     const onSubmit = async (data: newFlatForm) => {
         try {
             setLoading(true)
-            let flatData = { ...data }; 
+            let flatData = { ...data, email: userDetails.email, firstName: userDetails.firstName, lastName: userDetails.lastName }; 
 
             if (data.image[0]) {
                 const imagePath = await uploadImage(data.image[0]); 
                 const imageUrl = await getImageUrl(imagePath); 
                 setImageURL(imageUrl); 
-                flatData = { ...flatData, image: imageUrl }; 
+                flatData = { ...flatData, image: imageUrl };
             }
     
             const flatAdded = await addFlat(flatData);
             if(flatAdded){
-                toastSuccess('Flat succesfuly added')
+                toastSuccess('Flat successfully added')
                 setLoading(false)
             }
-        } catch(error){
+        } catch(error: any){
             toastError(error.message)
             setLoading(false)
         } 
