@@ -8,7 +8,7 @@ import { getFlats } from "../../api/methods/addFlats/addFlats"
 const PublicFlats = () => {
 
     const [isClicked, setIsClicked] = useState(false)
-    const {flats, setFlats} = useContext(UserDataContext)
+    const {flats, setFlats, setLoading} = useContext(UserDataContext)
 
     const handleClick = () => {
         setIsClicked(!isClicked)
@@ -16,8 +16,15 @@ const PublicFlats = () => {
 
     useEffect(() => {
         const fetchFlats = async () => {
-            const allFlats = await getFlats()
-            setFlats(allFlats)
+            try{
+                setLoading(true)
+                const allFlats = await getFlats()
+                setFlats(allFlats)
+            }catch(error: any){
+                throw new Error('Error fetching flats')
+            }finally{
+                setLoading(false)
+            }
         }
 
         fetchFlats()
@@ -47,7 +54,7 @@ const PublicFlats = () => {
                     <div className="flex flex-col gap-2">
                         <h4 className="text-[21px] font-bold uppercase text-[#116A7B]">{e.name}</h4>
 
-                        <Link to={`flat-${e.uid}`}>
+                        <Link to={`/view-flat/${e.uid}`}>
 
                         <div className="flex flex-col gap-3 items-start border-b-[1px] border-[#bcb2b2] py-3  cursor-pointer" >
 

@@ -12,7 +12,8 @@ import NewFlat from "../pages/NewFlat/NewFlat"
 import RessetPassword from "../pages/RessetPassword/RessetPassword"
 import AllUsers from "../pages/AllUsers/AllUsers"
 import { ToastProvider } from "../contexts/ToastContext"
-import { SpinnerProvider } from "../contexts/SpinnerConext"
+import EditFlat from "../pages/EditFlat/EditFlat"
+import ViewFlat from "../pages/ViewFlat/ViewFlat"
 
 const AppRouter = () => {
 
@@ -27,12 +28,14 @@ const AppRouter = () => {
     {name: <Messages/>, path: 'messages'},
     {name: <DeleteAccount/>, path: 'delete-account'},
     {name: <RessetPassword/>, path: 'resset-password'},
-    {name: <AllUsers/>, path: 'all-users'}
+    {name: <AllUsers/>, path: 'all-users'},
+    {name: <EditFlat/>, path: 'edit-flat/:uid'},
+    {name: <ViewFlat/>, path: 'view-flat/:uid'},
+    
   ]
 
   return (
     <BrowserRouter>
-    <SpinnerProvider>
     <ToastProvider>
         <Navbar/>
         <Routes>
@@ -41,7 +44,6 @@ const AppRouter = () => {
             ))}
         </Routes>
     </ToastProvider>
-    </SpinnerProvider>
     </BrowserRouter>
   )
 }

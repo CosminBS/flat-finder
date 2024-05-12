@@ -46,7 +46,7 @@ const svgVariants = {
 
 const Navbar = () => {
 
-    const { userDetails } = useContext(UserDataContext)
+    const { userDetails, setLoading, loading } = useContext(UserDataContext)
 
     const [isOpen, setIsOpen] = useState(false)
     const isLogged = JSON.parse(localStorage.getItem('loggedUser') as string)
@@ -72,14 +72,22 @@ const Navbar = () => {
     }
 
     const handleLogOut = async () => {
-      await LogOutUser()
-      localStorage.removeItem('loggedUser')
-      navigate('/login')
+      try{
+        setLoading(true)
+        await LogOutUser()
+        localStorage.removeItem('loggedUser')
+        navigate('/login')
+      }catch (error: any){
+        throw new Error(error)
+      }finally{
+        setLoading(false)
+      }
+
     }
     
 
   return (
-  <>{isLogged ? (    <motion.nav variants={containerVariants} initial="close" animate={containerControls} className="bg-white flex flex-col z-10 gap-20 p-5 fixed top-0 left-0 h-full shadow-md shadow-neutral-600">
+  <>{!loading && isLogged && (    <motion.nav variants={containerVariants} initial="close" animate={containerControls} className="bg-white flex flex-col z-10 gap-20 p-5 fixed top-0 left-0 h-full shadow-md shadow-neutral-600">
   <div className="flex flex-row w-full justify-between place-items-center">
       <div className="w-10 h-10">
       </div>
@@ -148,7 +156,7 @@ const Navbar = () => {
       </button>
     </NavigationLinks>
   </div>
-</motion.nav> ) : null}</>   
+</motion.nav> ) }</>   
 )
 }
 

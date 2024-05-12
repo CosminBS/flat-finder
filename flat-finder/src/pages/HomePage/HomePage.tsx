@@ -1,8 +1,7 @@
 import Greetings from "../../components/Greetings/Greetings"
 import Filters from "../../components/Filters/Filters";
 import Sort from "../../components/Sort/Sort";
-import { useEffect } from "react";
-// import { UserDataContext } from "../../providers/userData.context";
+import {  useEffect } from "react";
 import { useNavigate } from "react-router";
 import PublicFlats from "../PublicFlats/PublicFlats";
 import Footer from "../../components/Footer/Footer";
@@ -24,7 +23,6 @@ const HomeCheckAd = () => {
 
 const HomePage = () => {
 
-  // const { userDetails, setUserDetails } = useContext(UserDataContext)
   const navigate = useNavigate()
 
   useEffect(() => {

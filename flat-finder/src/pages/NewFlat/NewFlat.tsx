@@ -3,20 +3,16 @@ import { CheckIcon }  from "@heroicons/react/24/outline"
 import { newFlatForm } from "../../interfaces/interface";
 import { addFlat } from "../../api/methods/addFlats/addFlats";
 import { uploadImage } from "../../api/methods/uploadImage/uploadImage";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { getImageUrl } from "../../api/methods/addFlats/addFlats";
-import { useNavigate } from "react-router";
 import { useToast } from "../../contexts/ToastContext";
-import { useSpinner } from "../../contexts/SpinnerConext";
 import { UserDataContext } from "../../providers/userData.context";
-import { useContext } from "react";
 
 const NewFlat = () => {
 
-    const { userDetails } = useContext(UserDataContext);
+    const { userDetails, setLoading } = useContext(UserDataContext);
     const { toastError, toastSuccess } = useToast()
     const { register, handleSubmit, formState:{errors} } = useForm();
-    const { setLoading } = useSpinner()
 
     const [imageURL, setImageURL] = useState('')
 
@@ -35,12 +31,12 @@ const NewFlat = () => {
             const flatAdded = await addFlat(flatData);
             if(flatAdded){
                 toastSuccess('Flat successfully added')
-                setLoading(false)
             }
         } catch(error: any){
             toastError(error.message)
+        } finally{
             setLoading(false)
-        } 
+        }
     }
 
     const errorMessage = 'All fields are mandatory'

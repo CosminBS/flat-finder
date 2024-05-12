@@ -1,5 +1,5 @@
 import { createUserWithEmailAndPassword,  signInWithEmailAndPassword, signOut } from 'firebase/auth'
-import { collection, doc, getDoc, getDocs, query, setDoc, where, deleteDoc } from 'firebase/firestore'
+import { collection, doc, getDoc, getDocs, query, setDoc, where, deleteDoc, onSnapshot } from 'firebase/firestore'
 import { User } from '../../../interfaces/interface'
 import {  auth, db } from '../../firebase/firebase.config'
 
@@ -84,3 +84,5 @@ export async function checkEmail(email: string): Promise <boolean> {
 
     return !querySnapshot.empty
 }
+
+// updateData

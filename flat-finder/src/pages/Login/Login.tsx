@@ -5,12 +5,14 @@ import { loginUser } from "../../api/methods/auth/users"
 import { useContext, useEffect} from "react"
 import { UserDataContext } from "../../providers/userData.context"
 import { useToast } from "../../contexts/ToastContext"
+import SpinnerComponent from "../../components/SpinnerComponent/SpinnerComponent"
 
 const Login = () => {
 
 
-  const { userDetails, setUserDetails } = useContext(UserDataContext)
+  const { userDetails, setUserDetails, setLoading} = useContext(UserDataContext)
   const { toastError, toastSuccess } = useToast()
+
 
   const navigate = useNavigate()
 
@@ -18,6 +20,7 @@ const Login = () => {
 
   const onSubmit: SubmitHandler<User> = async (data) => {
     try{
+      setLoading(true)
       const loggedInSucces = await loginUser(data)
       if(loggedInSucces){
         toastSuccess('You are now logged in')
@@ -26,6 +29,8 @@ const Login = () => {
       } 
     } catch (error){
       toastError('Eroare de logare')
+    } finally{
+      setLoading(false)
     }
   }
 

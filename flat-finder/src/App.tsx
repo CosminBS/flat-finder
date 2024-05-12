@@ -5,6 +5,7 @@ import { Dispatch, SetStateAction, createContext, useState } from 'react'
 import { User } from 'firebase/auth'
 import { useEffect } from 'react'
 import { fetchUser } from './api/methods/auth/users'
+import SpinnerComponent from './components/SpinnerComponent/SpinnerComponent'
 
 interface UserDataContextInt {
   userDetails: User,
@@ -18,6 +19,7 @@ function App() {
 
   const [userDetails, setUserDetails] = useState({} as User)
   const [flats, setFlats] = useState([])
+  const [loading, setLoading] = useState(false)
 
   const getUser = async () => {
     const loggedUser = JSON.parse(localStorage.getItem('loggedUser') as string) || "";
@@ -38,7 +40,8 @@ function App() {
 
   return (
     <>
-    <UserDataContext.Provider value={{userDetails, setUserDetails, flats, setFlats}}>
+    {loading && <SpinnerComponent/>}
+    <UserDataContext.Provider value={{userDetails, setUserDetails, flats, setFlats, loading, setLoading}}>
       <AppRouter/>
     </UserDataContext.Provider>
     </>

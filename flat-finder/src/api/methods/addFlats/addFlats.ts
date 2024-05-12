@@ -1,8 +1,9 @@
 import { db, storage } from "../../firebase/firebase.config";
-import { setDoc, doc, getDocs, collection, DocumentData } from "firebase/firestore";
+import { setDoc, doc, getDocs, collection, DocumentData, deleteDoc } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid"
 import { newFlatForm } from "../../../interfaces/interface";
 import { getDownloadURL, ref } from "firebase/storage";
+import { TbHorse } from "react-icons/tb";
 
 export async function addFlat(flat: newFlatForm & { image: string }): Promise <boolean>{
 
@@ -66,3 +67,16 @@ export async function getImageUrl(imageFile: string) {
     }
 }
 
+
+export async function deleteFlat(uid: string): Promise<boolean>{
+    try{
+        const flatRef = doc(db, "flats", uid)
+
+        await deleteDoc(flatRef)
+
+        return true
+
+    }catch(error){
+        throw new Error('Error deleting flat')
+    }
+}

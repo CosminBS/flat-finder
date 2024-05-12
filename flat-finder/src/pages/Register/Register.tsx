@@ -1,13 +1,15 @@
-import { useRef } from "react"
+import { useContext, useRef } from "react"
 import { useForm, SubmitHandler } from "react-hook-form"
 import { Link, useNavigate} from "react-router-dom"
 import { User } from '../../interfaces/interface'
 import { registerUser } from "../../api/methods/auth/users"
 import { useToast } from "../../contexts/ToastContext"
+import { UserDataContext } from "../../providers/userData.context"
 
 const Register = () => {
 
   const { toastError, toastSuccess } = useToast()
+  const { setLoading } = useContext(UserDataContext)
 
   const navigate = useNavigate()
   const {register, handleSubmit, formState:{errors}, watch} = useForm();
@@ -16,9 +18,10 @@ const Register = () => {
 
   const onSubmit: SubmitHandler<User> = async (data) => {
     try {
+      setLoading(true)
       const registrationSuccess = await registerUser(data);
       if (registrationSuccess) {
-        toastSuccess('Congratulations you are know registered!')
+        toastSuccess('Congratulations you are know registered. Please Log In')
         navigate('/login');
       }
     } catch (error) {
@@ -27,6 +30,8 @@ const Register = () => {
       }else{
         toastError('Error')
       }
+    } finally{
+      setLoading(false)
     }
   }
 
