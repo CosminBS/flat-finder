@@ -1,7 +1,10 @@
 
 const Favorites = () => {
   return (
-    <div>Favorites</div>
+    <div className="pl-[5rem]">
+
+      
+    </div>
   )
 }
 

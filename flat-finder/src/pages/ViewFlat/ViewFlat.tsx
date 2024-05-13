@@ -39,8 +39,8 @@ const ViewFlat = () => {
     <div className="pl-[5rem] bg-[#ECECEB] h-full flex flex-col justify-between">
         {selectedFlat && (
             <div className="flex px-3 py-7 flex-col lg:gap-3 items-center">
-                <div className="bg-gray-400 w-full h-[300px] bg-cover bg-center rounded-tl-md rounded-tr-md lg:w-[500px] lg:h-[500px] lg:rounded-md lg:shadow-md" style={{backgroundImage: `url(${selectedFlat.imageURL})`}}></div>
-                <div className="w-full bg-white shadow-lg px-3 py-4 gap-5 flex flex-col sm:grid sm:grid-cols-2 sm:items-center lg:flex lg:flex-col lg:items-start">
+                <div className="bg-gray-400 w-full h-[300px] bg-cover bg-center rounded-tl-md rounded-tr-md lg:w-[500px] lg:h-[500px] lg:rounded-md lg:shadow-md " style={{backgroundImage: `url(${selectedFlat.imageURL})`}}></div>
+                <div className="w-full bg-white shadow-lg px-3 py-4 gap-5 flex flex-col sm:grid sm:grid-cols-2 sm:items-center lg:flex lg:flex-col lg:items-start  lg:rounded-md">
                     <span className="flex gap-2 items-center "><p className="text-[17px] font-semibold">City:</p> <p>{selectedFlat.city}</p></span>
                     <span className="flex gap-2 items-center"><p className="text-[17px] font-semibold">Street Name:</p> <p>{selectedFlat.streetName}</p></span>
                     

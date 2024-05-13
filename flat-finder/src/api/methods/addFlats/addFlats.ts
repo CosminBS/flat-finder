@@ -3,7 +3,6 @@ import { setDoc, doc, getDocs, collection, DocumentData, deleteDoc } from "fireb
 import { v4 as uuidv4 } from "uuid"
 import { newFlatForm } from "../../../interfaces/interface";
 import { getDownloadURL, ref } from "firebase/storage";
-import { TbHorse } from "react-icons/tb";
 
 export async function addFlat(flat: newFlatForm & { image: string }): Promise <boolean>{
 

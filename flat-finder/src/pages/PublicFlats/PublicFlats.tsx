@@ -10,7 +10,7 @@ const PublicFlats = () => {
     const [isClicked, setIsClicked] = useState(false)
     const {flats, setFlats, setLoading} = useContext(UserDataContext)
 
-    const handleClick = () => {
+    const handleClick = async() => {
         setIsClicked(!isClicked)
     }
 

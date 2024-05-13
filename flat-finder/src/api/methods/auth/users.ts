@@ -85,4 +85,7 @@ export async function checkEmail(email: string): Promise <boolean> {
     return !querySnapshot.empty
 }
 
-// updateData
+// update user data
+
+
+// delete user
