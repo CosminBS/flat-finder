@@ -5,7 +5,6 @@ import { loginUser } from "../../api/methods/auth/users"
 import { useContext, useEffect} from "react"
 import { UserDataContext } from "../../providers/userData.context"
 import { useToast } from "../../contexts/ToastContext"
-import SpinnerComponent from "../../components/SpinnerComponent/SpinnerComponent"
 
 const Login = () => {
 
@@ -33,6 +32,8 @@ const Login = () => {
       setLoading(false)
     }
   }
+
+
 
   useEffect(() => {
     if(JSON.parse(localStorage.getItem('loggedUser') as string)){

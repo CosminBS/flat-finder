@@ -1,5 +1,5 @@
 import { createUserWithEmailAndPassword,  signInWithEmailAndPassword, signOut } from 'firebase/auth'
-import { collection, doc, getDoc, getDocs, query, setDoc, where, deleteDoc, onSnapshot } from 'firebase/firestore'
+import { collection, doc, getDoc, getDocs, query, setDoc, where, deleteDoc, onSnapshot, addDoc, updateDoc, Timestamp } from 'firebase/firestore'
 import { User } from '../../../interfaces/interface'
 import {  auth, db } from '../../firebase/firebase.config'
 
@@ -13,10 +13,11 @@ export async function registerUser(user: User): Promise<boolean> {
         }
 
         const userCredential = await createUserWithEmailAndPassword(auth, user.email, user.password as string)
-        await createUserInDb({uid:userCredential.user.uid, email:user.email, firstName:user.firstName, lastName:user.lastName, dateOfBirth:user.dateOfBirth, role:'regular'})
+        await createUserInDb({uid:userCredential.user.uid, email:user.email, firstName:user.firstName, lastName:user.lastName, dateOfBirth:user.dateOfBirth, role:'regular', favorites: user.favorites})
+        console.log(createUserInDb)
         return true
     } catch (error: any) {
-        console.error('Error during user registration:', error.message)
+        console.error('Error during user registration:', error)
         return false 
     }
 }
@@ -38,14 +39,15 @@ async function createUserInDb(user: User){
             firstName: user.firstName,
             lastName: user.lastName,
             dateOfBirth: user.dateOfBirth,
-            role: 'regular'
+            role: 'regular',
+            favorites: user.favorites
         })
     } catch (error) {
         throw new Error
     }
 }
 
-// fetch users
+// fetch user
 export async function fetchUser(uid: string) {
     try {
         const docRef = doc(db, 'users', uid);
@@ -53,7 +55,7 @@ export async function fetchUser(uid: string) {
 
         if (docSnap.exists()) {
             const userData = docSnap.data();
-            const { uid } = userData;
+            const { uid } = userData
 
             localStorage.setItem('loggedUser', JSON.stringify( uid ));
 
@@ -85,7 +87,27 @@ export async function checkEmail(email: string): Promise <boolean> {
     return !querySnapshot.empty
 }
 
-// update user data
 
+// fetch all users
+export async function fetchUsers(): Promise<any[]> {
+    try {
+        const usersCollection = collection(db, 'users');
+        const querySnapshot = await getDocs(usersCollection);
 
-// delete user
+        const users: any[] = [];
+        querySnapshot.forEach((doc) => {
+            users.push(doc.data());
+        });
+
+        return users;
+
+    } catch (error) {
+        console.error(error);
+        return []; 
+    }
+}
+
+// test update
+export async function updateProfileData() {
+
+}

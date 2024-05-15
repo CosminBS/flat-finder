@@ -4,14 +4,16 @@ import { useContext, useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { UserDataContext } from "../../providers/userData.context"
 import { getFlats } from "../../api/methods/addFlats/addFlats"
+import { getFavoritesFlats } from "../../api/methods/addToFavorites/addToFavorites"
 
 const PublicFlats = () => {
 
     const [isClicked, setIsClicked] = useState(false)
-    const {flats, setFlats, setLoading} = useContext(UserDataContext)
+    const {flats, setFlats, setLoading, userDetails} = useContext(UserDataContext)
 
     const handleClick = async() => {
-        setIsClicked(!isClicked)
+        const fav = await getFavoritesFlats(userDetails.favorites)
+        console.log(fav)
     }
 
     useEffect(() => {
