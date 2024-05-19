@@ -21,15 +21,11 @@ const Register = () => {
       setLoading(true)
       const registrationSuccess = await registerUser(data);
       if (registrationSuccess) {
-        toastSuccess('Congratulations you are know registered. Please Log In')
+        toastSuccess('Congratulations, you are know registered. Please log in')
         navigate('/login');
       }
-    } catch (error) {
-      if(error.message === 'Email already in use'){
-        toastError('Email address is already in use.');
-      }else{
-        toastError('Error')
-      }
+    } catch (error: any) {
+      toastError(error.message)
     } finally{
       setLoading(false)
     }

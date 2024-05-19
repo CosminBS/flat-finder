@@ -9,7 +9,7 @@ import { useToast } from "../../contexts/ToastContext"
 const Login = () => {
 
 
-  const { userDetails, setUserDetails, setLoading} = useContext(UserDataContext)
+  const { setUserDetails, setLoading} = useContext(UserDataContext)
   const { toastError, toastSuccess } = useToast()
 
 
@@ -17,7 +17,7 @@ const Login = () => {
 
   const {register, handleSubmit, formState:{errors}} = useForm();
 
-  const onSubmit: SubmitHandler<User> = async (data) => {
+  const onSubmit: SubmitHandler<User> = async (data: any) => {
     try{
       setLoading(true)
       const loggedInSucces = await loginUser(data)
@@ -26,8 +26,8 @@ const Login = () => {
         setUserDetails(loggedInSucces)
         navigate('/')
       } 
-    } catch (error){
-      toastError('Eroare de logare')
+    } catch (error: any){
+      toastError(error.message)
     } finally{
       setLoading(false)
     }

@@ -46,11 +46,11 @@ const MyFlats = () => {
       const updatedFlats = await getFlats();
       setFlats(updatedFlats)
     } catch(error){
-      toastError('Erorr deleting flat. Please try again!')
+      toastError('Erorr deleting flat. Please try again later.')
       throw new Error
     } finally{
       setLoading(false)
-      toastSuccess('Succes deleting flat')
+      toastSuccess('Success deleting flat.')
     }
   }
 

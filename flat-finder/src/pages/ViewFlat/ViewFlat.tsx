@@ -30,7 +30,7 @@ const ViewFlat = () => {
 
     useEffect(() => {
         if(userDetails && flats.length > 0){
-            const flat = flats.find((flat) => flat.uid === uid)
+            const flat = flats.find((flat: any) => flat.uid === uid)
             setSelectedFlat(flat)
         }
     },[userDetails, flats, uid])

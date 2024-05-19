@@ -7,7 +7,7 @@ export interface User {
     lastName?: string
     dateOfBirth?: string
     role: string
-    favorites: FavoritesFlats[]
+    favorites?: FavoritesFlats[]
 }
 
 export interface newFlatForm {
@@ -25,9 +25,9 @@ export interface newFlatForm {
     email: string
     lastName: string
     firstName: string
+    imageURL?: string
 }
 
 export interface FavoritesFlats {
-    flatId: string,
-    city: string
+    flatId: string
 }

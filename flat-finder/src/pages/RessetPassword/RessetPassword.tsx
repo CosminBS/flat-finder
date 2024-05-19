@@ -1,18 +1,31 @@
-import { Link } from "react-router-dom"
-import { SubmitHandler, useForm } from 'react-hook-form'
+import { Link, useNavigate } from "react-router-dom"
+import { useForm } from 'react-hook-form'
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
-import { User } from "firebase/auth";
-import { useRef } from "react";
+import { useContext, useRef } from "react";
 import { motion } from 'framer-motion'
+import { resetPassword } from "../../api/methods/auth/users";
+import { UserDataContext } from "../../providers/userData.context";
+import { useToast } from "../../contexts/ToastContext";
 
 const RessetPassword = () => {
 
+    const { setLoading } = useContext(UserDataContext)
+    const { toastSuccess, toastError } = useToast()
     const {register, handleSubmit, formState:{errors}, watch} = useForm();
+
     const password = useRef({});
     password.current = watch('password', '')
 
+    const navigate = useNavigate()
+
     const onSubmit = async (data:any) => {
-        console.log(data)
+      try {
+        await resetPassword(data.email)
+        toastSuccess('Reset password email sent successfully.')
+        navigate("/login")
+      } catch (error: any) {
+        toastError(error.message)
+      }
     }
 
   return (
@@ -40,20 +53,6 @@ const RessetPassword = () => {
             }
           })}/>
             <p className="text-sm h-6 text-red-600">{errors.email && errors.email.message as string}</p>
-          </div>
-          
-          {/* Password */}
-          <div className="w-full flex flex-col gap-2">
-            <label htmlFor="password">Password</label>
-            <input type="password" id="password" placeholder="********" className="border-[2px] px-2 rounded-md h-[55px] focus:outline-none focus:border-[#116A7B]" {...register('password', {required: {value: true, message: 'This filed is mandatory'}})} />
-            <p className="text-sm h-6 text-red-600">{errors.password && errors.password.message as string}</p>
-          </div>
-
-           {/* Confirm Password */}
-          <div className="w-full flex flex-col gap-2">
-            <label htmlFor="confirmPassword">Confirm Password</label>
-            <input type="password" id="confirmPassword" {...register('confPassword', {required: {value: true, message: 'This filed is mandatory'}, validate: value => value === password.current || 'The passwords do not match'})} placeholder="********" className="border-[2px] px-2 rounded-md h-[55px] focus:outline-none focus:border-[#116A7B]"/>
-            <p className="text-sm h-6 text-red-600">{errors.confPassword && errors.confPassword.message as string}</p>
           </div>
 
           {/* Resset password button */}
