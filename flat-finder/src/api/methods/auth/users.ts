@@ -183,6 +183,6 @@ export async function grantAdminRole(uid: string, newData: Partial<User>): Promi
         return true
     }catch(error){
         console.error(error)
-        throw new Error('The rank of admin has not been granted. Please try again later.')
+        throw new Error('Something went wrong. Please try again later.')
     }
 }

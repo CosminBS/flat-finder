@@ -4,17 +4,33 @@ import { useContext, useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { UserDataContext } from "../../providers/userData.context"
 import { getFlats } from "../../api/methods/addFlats/addFlats"
-import { getFavoritesFlats } from "../../api/methods/addToFavorites/addToFavorites"
+import { addToFavorites, getFavoritesFlats, removeFromFavorites } from "../../api/methods/addToFavorites/addToFavorites"
 
 const PublicFlats = () => {
 
     const [isClicked, setIsClicked] = useState(false)
+    const [favorites, setFavorites] = useState<string[]>([]);
     const {flats, setFlats, setLoading, userDetails} = useContext(UserDataContext)
 
-    const handleClick = async() => {
-        const fav = await getFavoritesFlats(userDetails.favorites)
-        console.log(fav)
-    }
+    const handleClick = async (flatId: string) => {
+        if (!flatId) {
+            console.error('Invalid flatId:', flatId);
+            return;
+        }
+    
+        try {
+            if (favorites.includes(flatId)) {
+                await removeFromFavorites(userDetails.uid, flatId);
+                setIsClicked(false);
+                console.log()
+            } else {
+                await addToFavorites(userDetails.uid, flatId);
+                setIsClicked(true);
+            }
+        } catch (error) {
+            console.error('Error adding to favorites:', error);
+        }
+    };
 
     useEffect(() => {
         const fetchFlats = async () => {
@@ -30,7 +46,18 @@ const PublicFlats = () => {
         }
 
         fetchFlats()
-    },[])
+    },[setFlats, setLoading])
+
+    useEffect(() => {
+        const fetchFavorites = async () => {
+          if (userDetails.favorites && userDetails.favorites.length > 0) {
+            const favs = await getFavoritesFlats(userDetails.favorites);
+            setFavorites(favs);
+          }
+        };
+    
+        fetchFavorites();
+      }, [userDetails]);
 
   return (
     <div className="flex flex-col gap-6 font-poppins">
@@ -46,9 +73,13 @@ const PublicFlats = () => {
                             <h1 className="font-semibold text-[1.4rem]">{e.rentPrice} $</h1>
                         </div>
                         <div className="flex justify-center items-center gap-2">
-                            <p className="hidden xs:flex text-[12px]">{isClicked && 'Added to favorites' || 'Add to favorites'}</p>
-                            <motion.button onClick={() => handleClick()} whileHover={{rotateY: 180, transition:{type: "spring", damping: 15, duration: 0.5,}}} className="min-w-7 w-7 h-7  flex justify-center items-center rounded-[4px] hover:bg-[#cfe1e4]">
-                            <HeartIcon className={isClicked && `stroke-red-500 stroke-[0.75] min-w-6 w-6` || `stroke-[#5f8087] stroke-[0.75] min-w-6 w-6`} />
+                        <p className="hidden xs:flex text-[12px]">{favorites ? 'Added to favorites' : 'Add to favorites'}</p>
+                            <motion.button
+                                onClick={() => handleClick(e.uid)}
+                                whileHover={{ rotateY: 180, transition: { type: "spring", damping: 15, duration: 0.5 } }}
+                                className="min-w-7 w-7 h-7 flex justify-center items-center rounded-[4px] hover:bg-[#cfe1e4]"
+                            >
+                            <HeartIcon className={`${favorites ? 'stroke-red-500' : 'stroke-[#5f8087]'} stroke-[0.75] min-w-6 w-6`} />
                             </motion.button>
                         </div>
                     </div>

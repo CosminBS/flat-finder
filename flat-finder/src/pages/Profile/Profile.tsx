@@ -12,7 +12,7 @@ const Profile = () => {
   const [isActive, setIsActive] = useState(false)
 
   const {register, handleSubmit, formState:{errors}, watch} = useForm();
-  const { userDetails, setLoading, setUserDetails } = useContext(UserDataContext)
+  const { userDetails, setLoading, setUserDetails } = useContext (UserDataContext)
   const { toastSuccess, toastError } = useToast()
 
   const password = useRef({});
