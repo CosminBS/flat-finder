@@ -64,6 +64,7 @@ const PublicFlats = () => {
             try{
                 setLoading(true)
                 const allFlats = await getFlats(filters, sort)
+                console.log(allFlats)
                 setFlats(allFlats)
             }catch(error: any){
                 throw new Error('Error fetching flats')
@@ -91,7 +92,7 @@ const PublicFlats = () => {
             </div>
         </div> 
 
-        <HomeCheckAd/>
+        <HomeCheckAd />
 
         {flats.map((e: newFlatForm, index: any) => (
             <div key={index} className="grid grid-cols-1 md:grid-cols-2 gap-3 rounded-lg border-[1px] border-[#bcb2b2]">

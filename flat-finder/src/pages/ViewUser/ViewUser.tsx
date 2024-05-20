@@ -1,8 +1,9 @@
 import { useContext, useEffect, useState } from "react"
-import { fetchUsers, grantAdminRole, regradeUserRole } from "../../api/methods/auth/users"
+import { deleteUser, fetchUsers, grantAdminRole, regradeUserRole } from "../../api/methods/auth/users"
 import { useNavigate, useParams } from "react-router"
 import { UserDataContext } from "../../providers/userData.context"
 import { useToast } from "../../contexts/ToastContext"
+import { TrashIcon,  CheckIcon, XMarkIcon  } from "@heroicons/react/24/outline";
 
 const ViewUser = () => {
 
@@ -60,6 +61,29 @@ const ViewUser = () => {
     }
   }
 
+  const handleDeleteUser = async (uid: string) => {
+    try {
+      setLoading(true);
+      const response = await deleteUser(uid);
+
+      if (response.success){ 
+        const updatedUsers = user.filter((user: any) => user.uid !== uid);
+        setUser(updatedUsers);
+        navigate('/all-users');
+        toastSuccess('User successfully deleted.');
+      } else {
+        toastError('Error deleting user. Please try again later.');
+      }
+
+    } catch(error: any) {
+      console.error("Error deleting user:", error); 
+      toastError(error.message || 'Error deleting user. Please try again later.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
   return (
     <div className="w-full h-full flex items-center justify-center pl-[5rem] py-11 flex-col">
         <div className="w-full flex justify-center items-center gap-3">
@@ -73,11 +97,6 @@ const ViewUser = () => {
             <span className="flex flex-col sm:flex-row sm:items-center gap-3">
               <h5 className="font-semibold text-lg">First name:</h5>
               <p >{user.firstName}</p>
-            </span>
-
-            <span className="flex flex-col sm:flex-row sm:items-center gap-3">
-              <h5 className="font-semibold text-lg">Published Flats:</h5>
-              <p>{user.flatsCount}</p>
             </span>
 
             <span className="flex flex-col sm:items-center sm:flex-row gap-3 ">
@@ -101,8 +120,17 @@ const ViewUser = () => {
             </span>
 
             <span className="flex flex-col items-start justify-start gap-3 sm:flex-row ">
-              <button onClick={() => grantAdmin(uid)} className="hover:underline text-[#116A7B]">Grant admin</button>
-              <button onClick={() => regradeRole(uid)} className="hover:underline text-red-600">Downgrade user</button>
+              <button onClick={() => grantAdmin(uid!)} className="hover:underline text-[#116A7B] px-1 py-1 flex items-center gap-2 border-[2px] border-[#116A7B]">
+                Grant admin
+                <CheckIcon className="stroke-[#116A7B] stroke-[0.75] min-w-6 w-6" />
+                </button>
+              <button onClick={() => regradeRole(uid!)} className="hover:underline text-red-600  px-1 py-1 flex items-center gap-2 border-[2px] border-red-600">
+                Downgrade user
+                <XMarkIcon className="stroke-red-600 stroke-[0.75] min-w-6 w-6" />
+              </button>
+              <button onClick={() => handleDeleteUser(uid!)} className="hover:underline text-red-600  px-1 py-1 flex items-center gap-2 border-[2px] border-red-600">
+              Delete user
+              <TrashIcon className="stroke-red-600 stroke-[0.75] min-w-6 w-6" /></button>
             </span>
 
           </div>

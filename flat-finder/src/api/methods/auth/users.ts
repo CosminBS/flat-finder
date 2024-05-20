@@ -186,7 +186,7 @@ export async function grantAdminRole(uid: string, newData: Partial<User>): Promi
     }
 }
 
-// Regrade to user
+// Regrade user
 export async function regradeUserRole(uid: string, newData: Partial<User>): Promise<boolean>{
     try{
 
@@ -197,5 +197,16 @@ export async function regradeUserRole(uid: string, newData: Partial<User>): Prom
     } catch (error){
         console.error(error)
         throw new Error('Something went wrong. Please try again later.')
+    }
+}
+
+//  Delete user
+export async function deleteUser(uid: string): Promise<boolean>{
+    try{
+        const userRef = doc(db, "user", uid)
+        await deleteDoc(userRef)
+        return true
+    }catch(error){
+        throw new Error('Error user flat')
     }
 }

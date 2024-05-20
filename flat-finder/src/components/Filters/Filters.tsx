@@ -33,7 +33,26 @@ const Filters = ({ setFilters }) => {
             <input type="text" id="city" className="pl-2 py-3 border-[1px] border-black rounded-md focus:outline-none focus:border-[#116A7B]" placeholder="e.g. Brasov" {...register('city')} />
         </div>
     </div>
-    
+    <div className="w-full flex flex-col py-3 gap-3 sm:flex-row sm:justify-between sm:items-end">
+        <div className="flex flex-col gap-2 w-full">
+            <label htmlFor="minPrice">Min Price:</label>
+            <input type="number" id="minPrice" className="pl-2 py-3 border-[1px] border-black rounded-md focus:outline-none focus:border-[#116A7B]" placeholder="e.g. 700" {...register('minPrice')} />
+        </div>
+        <div className="flex flex-col gap-2 w-full">
+            <label htmlFor="maxPrice">Max Price:</label>
+            <input type="number" id="maxPrice" className="pl-2 py-3 border-[1px] border-black rounded-md focus:outline-none focus:border-[#116A7B]" placeholder="e.g. 1500" {...register('maxPrice')} />
+        </div>
+    </div>
+    <div className="w-full flex flex-col py-3 gap-3 sm:flex-row sm:justify-between sm:items-end">
+        <div className="flex flex-col gap-2 w-full">
+            <label htmlFor="minArea">Min Area:</label>
+            <input type="number" id="minArea" className="pl-2 py-3 border-[1px] border-black rounded-md focus:outline-none focus:border-[#116A7B]" placeholder="e.g. 50" {...register('minArea')} />
+        </div>
+        <div className="flex flex-col gap-2 w-full">
+            <label htmlFor="maxArea">Max Area:</label>
+            <input type="number" id="maxArea" className="pl-2 py-3 border-[1px] border-black rounded-md focus:outline-none focus:border-[#116A7B]" placeholder="e.g. 150" {...register('maxArea')} />
+        </div>
+    </div>
     <div className="flex justify-between flex-col gap-3 xs:flex-row xs:gap-0 ">
         <button type="button" onClick={clearFilters} className="px-3 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 hover:shadow-md flex items-center gap-2">
             <TrashIcon className="stroke-white stroke-[0.75] min-w-8 w-8" /> Clear

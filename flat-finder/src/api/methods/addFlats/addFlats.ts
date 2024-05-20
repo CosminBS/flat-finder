@@ -44,7 +44,6 @@ export async function getFlats(filters: any = {}, sort: any = {}) {
     try {
         const flatsCollection = collection(db, "flats");
 
-
         let q = query(flatsCollection);
 
         if (filters.city) {
@@ -81,9 +80,9 @@ export async function getFlats(filters: any = {}, sort: any = {}) {
         }
 
         return arr;
-    } catch(error){
-        console.error(error)
-        throw new Error(error as string)
+    } catch(error) {
+        console.error(error);
+        throw new Error(error as string);
     }
 }
 
@@ -102,12 +101,8 @@ export async function getImageUrl(imageFile: string) {
 export async function deleteFlat(uid: string): Promise<boolean>{
     try{
         const flatRef = doc(db, "flats", uid)
-
         await deleteDoc(flatRef)
-
-
         return true
-
     }catch(error){
         throw new Error('Error deleting flat')
     }
