@@ -1,16 +1,16 @@
 import { useContext, useEffect, useState } from "react"
-import { useParams } from "react-router"
+import { useNavigate, useParams } from "react-router"
 import { UserDataContext } from "../../providers/userData.context"
-import { useToast } from "../../contexts/ToastContext"
 import { getFlats } from "../../api/methods/addFlats/addFlats"
 import Footer from "../../components/Footer/Footer"
+import { newFlatForm } from "../../interfaces/interface"
 
 const ViewFlat = () => {
     
     const { uid } = useParams()
-    const { userDetails, flats, setFlats, setLoading } = useContext(UserDataContext);
-    const { toastSuccess, toastError } = useToast()
-    const [selectedFlat, setSelectedFlat] = useState({})
+    const { userDetails, flats, setFlats, setLoading } = useContext<any>(UserDataContext);
+    const [selectedFlat, setSelectedFlat] = useState<newFlatForm | null>(null)
+    const navigate = useNavigate()
 
     useEffect(() => {
         const fetchFlats = async() => {
@@ -30,17 +30,21 @@ const ViewFlat = () => {
 
     useEffect(() => {
         if(userDetails && flats.length > 0){
-            const flat = flats.find((flat: any) => flat.uid === uid)
+            const flat = flats.find((flat: newFlatForm) => flat.uid === uid)
             setSelectedFlat(flat)
         }
     },[userDetails, flats, uid])
 
+    const sendMessage = (userId: string) => {
+        navigate(`/send-message/${userId}`)
+    }
+
     return (
-    <div className="pl-[5rem] bg-[#ECECEB] h-full flex flex-col justify-between">
+    <div className="pl-[5rem]  h-[100dvh] flex flex-col justify-between">
         {selectedFlat && (
             <div className="flex px-3 py-7 flex-col lg:gap-3 items-center">
-                <div className="bg-gray-400 w-full h-[300px] bg-cover bg-center rounded-tl-md rounded-tr-md lg:w-[500px] lg:h-[500px] lg:rounded-md lg:shadow-md " style={{backgroundImage: `url(${selectedFlat.imageURL})`}}></div>
-                <div className="w-full bg-white shadow-lg px-3 py-4 gap-5 flex flex-col sm:grid sm:grid-cols-2 sm:items-center lg:flex lg:flex-col lg:items-start  lg:rounded-md">
+                <div className="bg-gray-400 shadow-xl border-2 w-full h-[300px] bg-cover bg-center rounded-tl-md rounded-tr-md lg:w-[500px] lg:h-[500px] lg:rounded-md lg:shadow-md " style={{backgroundImage: `url(${selectedFlat.imageURL})`}}></div>
+                <div className="w-full bg-white shadow-lg px-3 py-4 gap-5 flex flex-col sm:grid sm:grid-cols-2 sm:items-center lg:flex lg:flex-col lg:items-start  lg:rounded-md border-2">
                     <span className="flex gap-2 items-center "><p className="text-[17px] font-semibold">City:</p> <p>{selectedFlat.city}</p></span>
                     <span className="flex gap-2 items-center"><p className="text-[17px] font-semibold">Street Name:</p> <p>{selectedFlat.streetName}</p></span>
                     
@@ -59,7 +63,7 @@ const ViewFlat = () => {
                 <div className="py-3 px-3 gap-3 flex flex-col w-full items-start">
                     <span className="flex gap-2 items-center"><p className="text-[17px] font-semibold">Posted By:</p> <p>{selectedFlat.firstName} {selectedFlat.lastName}</p></span>
                     <span className="flex gap-2 items-center"><p className="text-[17px] font-semibold">Email:</p> <p>{selectedFlat.email}</p></span>
-                    <button className="py-2 px-3 rounded-sm bg-[#116A7B] text-white text-sm md:w-[150px] shadow-md hover:bg-[#274f5c]">Send a message</button>
+                    <button onClick={() => sendMessage(selectedFlat.userId)} className="py-2 px-3 rounded-sm bg-[#116A7B] text-white text-sm md:w-[150px] shadow-md hover:bg-[#274f5c]">Send a message</button>
                 </div>
             </div>
         )}

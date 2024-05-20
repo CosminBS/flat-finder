@@ -6,6 +6,7 @@ import { fetchUser, updateProfileData } from "../../api/methods/auth/users";
 import { UserDataContext } from "../../providers/userData.context";
 import { useToast } from "../../contexts/ToastContext";
 import Footer from "../../components/Footer/Footer";
+import { useNavigate } from "react-router";
 
 const Profile = () => {
 
@@ -15,8 +16,10 @@ const Profile = () => {
   const { userDetails, setLoading, setUserDetails } = useContext (UserDataContext)
   const { toastSuccess, toastError } = useToast()
 
+  const navigate = useNavigate()
   const password = useRef({});
   password.current = watch('password', '')
+
 
   const onSubmit = async(data: User) => {
     try{
@@ -37,6 +40,7 @@ const Profile = () => {
 
       const success = await updateProfileData(userDetails.uid, updatedData);
       if (success){
+        navigate('/')
         toastSuccess('Your profile was updated.');
         setUserDetails(updatedData)
       }

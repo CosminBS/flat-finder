@@ -15,6 +15,7 @@ import { ToastProvider } from "../contexts/ToastContext"
 import EditFlat from "../pages/EditFlat/EditFlat"
 import ViewFlat from "../pages/ViewFlat/ViewFlat"
 import ViewUser from "../pages/ViewUser/ViewUser"
+import SendMessage from "../pages/SendMessage/SendMessage"
 
 const AppRouter = () => {
 
@@ -33,6 +34,7 @@ const AppRouter = () => {
     {name: <EditFlat/>, path: 'edit-flat/:uid'},
     {name: <ViewFlat/>, path: 'view-flat/:uid'},
     {name: <ViewUser/>, path: 'view-user/:uid'},
+    {name: <SendMessage/>, path: 'send-message/:uid'},
     
   ]
 

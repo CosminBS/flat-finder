@@ -7,14 +7,18 @@ import { useState, useContext } from "react";
 import { getImageUrl } from "../../api/methods/addFlats/addFlats";
 import { useToast } from "../../contexts/ToastContext";
 import { UserDataContext } from "../../providers/userData.context";
+import { useNavigate } from "react-router";
 
 const NewFlat = () => {
 
-    const { userDetails, setLoading } = useContext(UserDataContext);
+    const { userDetails, setLoading } = useContext<any>(UserDataContext);
     const { toastError, toastSuccess } = useToast()
     const { register, handleSubmit, formState:{errors} } = useForm();
+    const navigate = useNavigate()
 
     const [imageURL, setImageURL] = useState('')
+
+
 
     const onSubmit = async (data: newFlatForm) => {
         try {
@@ -28,12 +32,14 @@ const NewFlat = () => {
                 flatData = { ...flatData, image: imageUrl };
             }
     
-            const flatAdded = await addFlat(flatData);
+            const flatAdded = await addFlat(userDetails.uid ,flatData);
             if(flatAdded){
                 toastSuccess('Flat successfully added')
             }
+            navigate('/')
         } catch(error: any){
             toastError(error.message)
+            console.error(error)
         } finally{
             setLoading(false)
         }

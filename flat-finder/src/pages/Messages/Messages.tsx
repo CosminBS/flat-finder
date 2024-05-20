@@ -1,7 +1,9 @@
 
 const Messages = () => {
   return (
-    <div>Messages</div>
+    <div className="pl-[5rem]">
+
+    </div>
   )
 }
 

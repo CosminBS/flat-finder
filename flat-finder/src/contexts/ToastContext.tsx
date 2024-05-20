@@ -2,7 +2,7 @@ import { createContext, useContext, ReactNode } from "react";
 import { toast, ToastContainer, ToastOptions } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-interface ToastContextProps {
+ interface ToastContextProps {
   toastSuccess: (message: string, options?: ToastOptions) => void;
   toastError: (message: string, options?: ToastOptions) => void;
   toastWarning: (message: string, options?: ToastOptions) => void;

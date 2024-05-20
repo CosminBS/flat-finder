@@ -1,13 +1,16 @@
+import { Timestamp } from "firebase/firestore"
+
 export interface User {
     uid: string
-    email?: string
+    email: string
     password?: string
     confPassword?: string
     firstName?: string
     lastName?: string
     dateOfBirth?: string
-    role: string
+    role?: string
     favorites?: FavoritesFlats[]
+    flatsCount?: number
 }
 
 export interface newFlatForm {
@@ -20,14 +23,22 @@ export interface newFlatForm {
     hasAC: boolean
     yearBuilt: number
     rentPrice: number
-    startDate: Date
-    endDate: Date
+    startDate: string
+    endDate: string
     email: string
     lastName: string
     firstName: string
     imageURL?: string
+    name: string
 }
 
 export interface FavoritesFlats {
     flatId: string
+}
+
+export interface newMessage {
+    senderI: string
+    content: string
+    receptorId: string
+    timestamp: Timestamp
 }

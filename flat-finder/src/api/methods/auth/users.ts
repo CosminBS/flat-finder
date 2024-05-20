@@ -1,8 +1,7 @@
-import { createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, updateEmail, updatePassword } from 'firebase/auth'
+import { createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import { collection, doc, getDoc, getDocs, query, setDoc, where, deleteDoc, updateDoc, } from 'firebase/firestore'
 import { User } from '../../../interfaces/interface'
 import {  auth, db } from '../../firebase/firebase.config'
-
 
 // Register user
 export async function registerUser(user: User): Promise<boolean> {
@@ -178,10 +177,24 @@ export async function grantAdminRole(uid: string, newData: Partial<User>): Promi
     try{
 
         const userRef = doc(db, 'users', uid);
-        await updateDoc(userRef, {...newData}) 
+        await updateDoc(userRef, {...newData})
 
         return true
     }catch(error){
+        console.error(error)
+        throw new Error('Something went wrong. Please try again later.')
+    }
+}
+
+// Regrade to user
+export async function regradeUserRole(uid: string, newData: Partial<User>): Promise<boolean>{
+    try{
+
+        const userRef = doc(db, 'users', uid)
+        await updateDoc(userRef, {...newData})
+
+        return true
+    } catch (error){
         console.error(error)
         throw new Error('Something went wrong. Please try again later.')
     }

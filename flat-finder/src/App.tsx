@@ -6,13 +6,16 @@ import { User } from 'firebase/auth'
 import { useEffect } from 'react'
 import { fetchUser } from './api/methods/auth/users'
 import SpinnerComponent from './components/SpinnerComponent/SpinnerComponent'
+import { newFlatForm } from './interfaces/interface'
 
 interface UserDataContextInt {
   userDetails: User,
   setUserDetails: Dispatch<SetStateAction<User>>
+  flats: newFlatForm[]
+  setFlats: Dispatch<SetStateAction<newFlatForm[]>>
 }
 
-export const userDataContext = createContext({} as UserDataContextInt)
+export const userDataContext = createContext<UserDataContextInt | undefined>(undefined)
 
 
 function App() {

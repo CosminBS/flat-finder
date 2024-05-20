@@ -1,16 +1,18 @@
 import { useContext, useEffect, useState } from "react"
 import { UserDataContext } from "../../providers/userData.context"
 import { deleteFlat, getFlats } from "../../api/methods/addFlats/addFlats"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { TrashIcon, PencilIcon  } from "@heroicons/react/24/outline";
 import { useToast } from "../../contexts/ToastContext";
+import { newFlatForm } from "../../interfaces/interface";
 
 
 const MyFlats = () => {
 
-  const { userDetails, setLoading, flats, setFlats  } = useContext(UserDataContext);
+  const { userDetails, setLoading, flats, setFlats  } = useContext<any>(UserDataContext);
   const { toastSuccess, toastError } = useToast()
   const [userFlats, setUserFlats] = useState([])
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchFlats = async () => {
@@ -45,6 +47,7 @@ const MyFlats = () => {
       await deleteFlat(uid)
       const updatedFlats = await getFlats();
       setFlats(updatedFlats)
+      navigate('/')
     } catch(error){
       toastError('Erorr deleting flat. Please try again later.')
       throw new Error
@@ -75,7 +78,7 @@ const MyFlats = () => {
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-          {userFlats.map((flat, index) => (
+          {userFlats.map((flat: newFlatForm, index) => (
             <tr key={index}>
               <td className="px-6 py-4 whitespace-nowrap">{flat.city}</td>
               <td className="px-6 py-4 whitespace-nowrap">{flat.streetName}</td>

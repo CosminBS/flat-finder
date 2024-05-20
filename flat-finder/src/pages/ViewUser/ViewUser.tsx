@@ -1,12 +1,16 @@
 import { useContext, useEffect, useState } from "react"
-import { fetchUsers, grantAdminRole } from "../../api/methods/auth/users"
-import { useParams } from "react-router"
+import { fetchUsers, grantAdminRole, regradeUserRole } from "../../api/methods/auth/users"
+import { useNavigate, useParams } from "react-router"
 import { UserDataContext } from "../../providers/userData.context"
+import { useToast } from "../../contexts/ToastContext"
 
 const ViewUser = () => {
 
+  const navigate = useNavigate()
   const { uid } = useParams()
-  const [user, setUser] = useState({})
+  const { setLoading } = useContext<any>(UserDataContext)
+  const { toastError, toastSuccess } = useToast()
+  const [user, setUser] = useState<any>({})
 
   useEffect(() => {
     const allUsers = async() => {
@@ -18,23 +22,42 @@ const ViewUser = () => {
       }) 
     }
     allUsers()
-  },[])
-
-  const deleteUser = async(uid: string) => {
-    console.log('Utilizator sters')
-  }
+  },[uid])
 
   const grantAdmin = async(uid:string) => {
 
     try{
+      setLoading(true)
       const succes = await grantAdminRole(uid, {role: 'admin'});
       if(succes){
         setUser((prevUser) => ({...prevUser, role: 'admin'}))
+        toastSuccess('Admin role successfully added.')
+        navigate('/all-users')
       }
-    }catch(error){
+    }catch(error: any){
       console.error(error)
+      toastError(error)
+    }finally{
+      setLoading(false)
     }
     
+  }
+
+  const regradeRole = async(uid:string) => {
+    try{
+      setLoading(true)
+      const succes = await regradeUserRole(uid, {role: 'regular'})
+      if(succes){
+        setUser((prevUser) => ({...prevUser, role: 'regular'}))
+        toastSuccess('Successfully passing the role to the user.')
+        navigate('/all-users')
+      }
+    } catch(error: any){
+      console.error(error)
+      toastError(error)
+    } finally{
+      setLoading(false)
+    }
   }
 
   return (
@@ -54,7 +77,7 @@ const ViewUser = () => {
 
             <span className="flex flex-col sm:flex-row sm:items-center gap-3">
               <h5 className="font-semibold text-lg">Published Flats:</h5>
-              <p>counter</p>
+              <p>{user.flatsCount}</p>
             </span>
 
             <span className="flex flex-col sm:items-center sm:flex-row gap-3 ">
@@ -78,8 +101,8 @@ const ViewUser = () => {
             </span>
 
             <span className="flex flex-col items-start justify-start gap-3 sm:flex-row ">
-              <button onClick={() => deleteUser()} className="hover:underline text-red-600">Delete user</button>
-              <button onClick={() => grantAdmin()} className="hover:underline text-[#116A7B]">Grant admin</button>
+              <button onClick={() => grantAdmin(uid)} className="hover:underline text-[#116A7B]">Grant admin</button>
+              <button onClick={() => regradeRole(uid)} className="hover:underline text-red-600">Downgrade user</button>
             </span>
 
           </div>

@@ -1,18 +1,19 @@
 import { db, storage } from "../../firebase/firebase.config";
-import { setDoc, doc, getDocs, collection, DocumentData, deleteDoc, updateDoc } from "firebase/firestore";
+import { setDoc, doc, getDocs, collection, deleteDoc, updateDoc, query, where, orderBy } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid"
 import { newFlatForm } from "../../../interfaces/interface";
 import { getDownloadURL, ref } from "firebase/storage";
 import { uploadImage } from "../uploadImage/uploadImage";
 
 // Add flat
-export async function addFlat(flat: newFlatForm & { image: string }): Promise <boolean>{
+export async function addFlat(userId: string, flat: newFlatForm & { image: string }): Promise <boolean>{
 
     try {
         const uid = uuidv4()
 
         await setDoc(doc(db, "flats", uid), {
             uid: uid,
+            userId: userId,
             image: flat.image,
             city: flat.city, 
             streetName: flat.streetName,
@@ -27,27 +28,58 @@ export async function addFlat(flat: newFlatForm & { image: string }): Promise <b
             firstName: flat.firstName,
             lastName: flat.lastName,
         })
+
+
         return true
     } catch(error){
-        console.error()
+        console.error(error)
         throw new Error("Error adding flat");
     }
 
 }
 
-//  Get flats
-export async function getFlats() {
-    try {
-        const arr: DocumentData[] = []
 
-        const data = await getDocs(collection(db, 'flats'));
-    
-        for (const doc of data.docs) {
-            const flat = doc.data()
-            const imageURL = await getImageUrl(`${flat.image}`);
-            arr.push({...flat, imageURL})
+//  Get flats
+export async function getFlats(filters: any = {}, sort: any = {}) {
+    try {
+        const flatsCollection = collection(db, "flats");
+
+
+        let q = query(flatsCollection);
+
+        if (filters.city) {
+            q = query(q, where("city", "==", filters.city));
         }
-    
+
+        if (filters.minPrice) {
+            q = query(q, where("rentPrice", ">=", Number(filters.minPrice)));
+        }
+
+        if (filters.maxPrice) {
+            q = query(q, where("rentPrice", "<=", Number(filters.maxPrice)));
+        }
+
+        if (filters.minArea) {
+            q = query(q, where("areaSize", ">=", Number(filters.minArea)));
+        }
+
+        if (filters.maxArea) {
+            q = query(q, where("areaSize", "<=", Number(filters.maxArea)));
+        }
+
+        if (sort.criteria) {
+            q = query(q, orderBy(sort.criteria, sort.order === "Ascending" ? "asc" : "desc"));
+        }
+
+        const data = await getDocs(q);
+        const arr = [];
+
+        for (const doc of data.docs) {
+            const flat = doc.data();
+            const imageURL = await getImageUrl(`${flat.image}`);
+            arr.push({ ...flat, imageURL });
+        }
+
         return arr;
     } catch(error){
         console.error(error)
@@ -114,3 +146,4 @@ export async function updateFlatData(uid: string, newData: Partial<newFlatForm>)
         throw new Error('Error updating flat. Please try again later.')
     }
 }
+
