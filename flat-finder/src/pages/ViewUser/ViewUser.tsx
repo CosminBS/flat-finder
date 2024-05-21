@@ -72,6 +72,7 @@ const ViewUser = () => {
         navigate('/all-users');
         toastSuccess('User successfully deleted.');
       } else {
+        
         toastError('Error deleting user. Please try again later.');
       }
 

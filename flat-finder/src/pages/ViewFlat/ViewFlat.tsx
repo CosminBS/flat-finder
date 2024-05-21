@@ -4,40 +4,37 @@ import { UserDataContext } from "../../providers/userData.context"
 import { getFlats } from "../../api/methods/addFlats/addFlats"
 import Footer from "../../components/Footer/Footer"
 import { newFlatForm } from "../../interfaces/interface"
+import { Link } from "react-router-dom"
 
 const ViewFlat = () => {
     
-    const { uid } = useParams()
+    const { uid } = useParams();
     const { userDetails, flats, setFlats, setLoading } = useContext<any>(UserDataContext);
-    const [selectedFlat, setSelectedFlat] = useState<newFlatForm | null>(null)
-    const navigate = useNavigate()
+    const [selectedFlat, setSelectedFlat] = useState<newFlatForm | null>(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchFlats = async() => {
-            try{
-                setLoading(true)
-                const allFlats = await getFlats()
-                setFlats(allFlats)
-            }catch(error){
-                throw new Error('Error fetching flats')
-            }finally{
-                setLoading(false)
+            try {
+                setLoading(true);
+                const allFlats = await getFlats();
+                setFlats(allFlats);
+            } catch (error) {
+                throw new Error('Error fetching flats');
+            } finally {
+                setLoading(false);
             }
-        }
+        };
 
-        fetchFlats()
-    },[])
+        fetchFlats();
+    }, []);
 
     useEffect(() => {
-        if(userDetails && flats.length > 0){
-            const flat = flats.find((flat: newFlatForm) => flat.uid === uid)
-            setSelectedFlat(flat)
+        if(userDetails && flats.length > 0) {
+            const flat = flats.find((flat: newFlatForm) => flat.uid === uid);
+            setSelectedFlat(flat);
         }
-    },[userDetails, flats, uid])
-
-    const sendMessage = (userId: string) => {
-        navigate(`/send-message/${userId}`)
-    }
+    }, [userDetails, flats, uid]);
 
     return (
     <div className="pl-[5rem]  h-[100dvh] flex flex-col justify-between">
@@ -63,7 +60,7 @@ const ViewFlat = () => {
                 <div className="py-3 px-3 gap-3 flex flex-col w-full items-start">
                     <span className="flex gap-2 items-center"><p className="text-[17px] font-semibold">Posted By:</p> <p>{selectedFlat.firstName} {selectedFlat.lastName}</p></span>
                     <span className="flex gap-2 items-center"><p className="text-[17px] font-semibold">Email:</p> <p>{selectedFlat.email}</p></span>
-                    <button onClick={() => sendMessage(selectedFlat.userId)} className="py-2 px-3 rounded-sm bg-[#116A7B] text-white text-sm md:w-[150px] shadow-md hover:bg-[#274f5c]">Send a message</button>
+                    <Link to={`/send-message/${uid}`}><button className="py-2 px-3 rounded-sm bg-[#116A7B] text-white text-sm md:w-[150px] shadow-md hover:bg-[#274f5c]">Send a message</button></Link>
                 </div>
             </div>
         )}

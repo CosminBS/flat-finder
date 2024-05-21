@@ -10,7 +10,6 @@ export interface User {
     dateOfBirth?: string
     role?: string
     favorites?: FavoritesFlats[]
-    flatsCount?: number
 }
 
 export interface newFlatForm {

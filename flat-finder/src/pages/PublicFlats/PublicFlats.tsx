@@ -64,7 +64,6 @@ const PublicFlats = () => {
             try{
                 setLoading(true)
                 const allFlats = await getFlats(filters, sort)
-                console.log(allFlats)
                 setFlats(allFlats)
             }catch(error: any){
                 throw new Error('Error fetching flats')
