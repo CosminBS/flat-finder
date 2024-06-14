@@ -116,41 +116,41 @@ const Navbar = () => {
   </div>
   <div className="flex flex-col gap-3">
 
-  <NavigationLinks name="Profile" to="/profile">
+  <NavigationLinks name="Profile" to="/profile" isOpen={isOpen}>
       <UserIcon className="stroke-inherit stroke-[0.75] min-w-8 w-8" />
     </NavigationLinks>
 
-    <NavigationLinks name="Home" to="/">
+    <NavigationLinks name="Home" to="/" isOpen={isOpen}>
       <HomeIcon className="stroke-inherit stroke-[0.75] min-w-8 w-8" />
     </NavigationLinks>
 
-    <NavigationLinks name="Favorites" to="/favorites">
+    <NavigationLinks name="Favorites" to="/favorites" isOpen={isOpen}>
       <HeartIcon className="stroke-inherit stroke-[0.75] min-w-8 w-8" />
     </NavigationLinks>
 
-    <NavigationLinks name="My Flats" to="/my-flats">
+    <NavigationLinks name="My Flats" to="/my-flats" isOpen={isOpen}>
       <DocumentCheckIcon className="stroke-inherit stroke-[0.75] min-w-8 w-8" />
     </NavigationLinks>
 
-    <NavigationLinks name="New Flat" to="/new-flat">
+    <NavigationLinks name="New Flat" to="/new-flat" isOpen={isOpen}>
       <PlusIcon className="stroke-inherit stroke-[0.75] min-w-8 w-8" />
     </NavigationLinks>
 
-    <NavigationLinks name="Messages" to="/messages">
+    <NavigationLinks name="Messages" to="/messages" isOpen={isOpen}>
       <ChatBubbleOvalLeftIcon className="stroke-inherit stroke-[0.75] min-w-8 w-8" />
     </NavigationLinks>
 
-    {userDetails.role === 'admin' ? (<NavigationLinks name="All Users" to="/all-users">
+    {userDetails.role === 'admin' ? (<NavigationLinks name="All Users" to="/all-users" isOpen={isOpen}>
       <UsersIcon className="stroke-inherit stroke-[0.75] min-w-8 w-8" />
     </NavigationLinks>) : null}
 
-    <NavigationLinks  name="Delete Account" to="/delete-account">
+    <NavigationLinks  name="Delete Account" to="/delete-account" isOpen={isOpen}>
       <TrashIcon className="stroke-inherit stroke-[0.75] min-w-8 w-8" />
     </NavigationLinks>
 
   </div>
   <div>
-    <NavigationLinks name="Log Out" to="/">
+    <NavigationLinks name="Log Out" to="/" isOpen={isOpen}>
       <button onClick={() => handleLogOut()}>
         <ArrowLeftStartOnRectangleIcon  className="stroke-inherit stroke-[0.75] min-w-8 w-8" />
       </button>
