@@ -1,1 +1,10 @@
 # flat-finder
+![flat-finder-mobile3](https://github.com/CosminBS/flat-finder/assets/88942707/ea356787-9e35-41c7-9738-05d34581af2e)
+![flat-finder-mobile2](https://github.com/CosminBS/flat-finder/assets/88942707/f60932ee-36b2-4802-8bd3-264e8b5fb963)
+![flat-finder-mobile1](https://github.com/CosminBS/flat-finder/assets/88942707/e7e077b9-9b13-4dea-8390-8713a8c4b6ae)
+![flat-finder6](https://github.com/CosminBS/flat-finder/assets/88942707/b14ee86a-ea35-47ac-b88a-0e4fcc5f8b00)
+![flat-finder5](https://github.com/CosminBS/flat-finder/assets/88942707/fc091893-a827-4a2a-9b64-e7009670e1e9)
+![flat-finder4](https://github.com/CosminBS/flat-finder/assets/88942707/cd88cb1f-4af6-4994-a75c-5bf8e520cc76)
+![flat-finder3](https://github.com/CosminBS/flat-finder/assets/88942707/e7521c3a-d073-48fe-8700-53c9cfaaf322)
+![flat-finder2](https://github.com/CosminBS/flat-finder/assets/88942707/2ee1d7c7-8758-4a60-b0da-1875bbd01298)
+![flat-finder1](https://github.com/CosminBS/flat-finder/assets/88942707/66fe0046-3038-4632-a648-cd9e507da214)
